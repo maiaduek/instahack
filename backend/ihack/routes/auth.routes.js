@@ -148,17 +148,32 @@ router.get("/logout", isAuthenticated, (req, res) => {
 });
 
 router.post("/edit-user", isAuthenticated, (req, res) => {
-  User.findByIdAndUpdate(req.user._id, {
-    username: req.body.username,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    preferredLang: req.body.preferredLang
-  })
-  .then(results => {
-    res.json(results)
-  })
-  .catch(err => {
-    res.json(err.message)
+  const {username, password, firstName, lastName, preferredLang} = req.body;
+
+  if (password?.length < 8) {
+    return res.status(400).json({
+      errorMessage: "Your password needs to be at least 8 characters long.",
+    });
+  }
+
+  return bcrypt
+    .genSalt(saltRounds)
+    .then((salt) => bcrypt.hash(password, salt))
+    .then((hashedPassword) => {
+      User.findByIdAndUpdate(req.user._id, {
+        username,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        preferredLang
+      })
+      .then(results => {
+      console.log("RESULTS FROM EDITING:::", results)
+      res.json(results)
+      })
+      .catch(err => {
+      res.json(err.message)
+    })
   })
 })
 
