@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const jwt = require("jsonwebtoken");
 
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
@@ -11,15 +12,18 @@ const saltRounds = 10;
 const User = require("../models/User.model");
 
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
-const isLoggedOut = require("../middleware/isLoggedOut");
-const isLoggedIn = require("../middleware/isLoggedIn");
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 
-router.get("/loggedin", (req, res) => {
+router.get("/", (req, res) => {
+  res.json("AUTH");
+})
+
+router.get("/loggedin", isAuthenticated, (req, res) => {
   res.json(req.user);
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, password } = req.body;
+router.post("/signup", (req, res) => {
+  const { username, password, firstName, lastName, preferredLang } = req.body;
 
   if (!username) {
     return res
@@ -61,12 +65,16 @@ router.post("/signup", isLoggedOut, (req, res) => {
         return User.create({
           username,
           password: hashedPassword,
+          firstName,
+          lastName,
+          preferredLang
         });
       })
       .then((user) => {
         // Bind the user to the session object
         req.session.user = user;
         res.status(201).json(user);
+        console.log("NEW USER CREATED:::", user)
       })
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -83,7 +91,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
-router.post("/login", isLoggedOut, (req, res, next) => {
+router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username) {
@@ -113,9 +121,17 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         if (!isSamePassword) {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
-        req.session.user = user;
-        // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
-        return res.json(user);
+        
+        const payload = {_id: user._id, username: user.username}
+
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "6h",
+        })
+
+
+        // Send token as the response
+        return res.status(200).json(authToken);
       });
     })
 
@@ -127,13 +143,31 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
 });
 
-router.get("/logout", isLoggedIn, (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ errorMessage: err.message });
-    }
-    res.json({ message: "Done" });
-  });
+router.get("/logout", isAuthenticated, (req, res) => {
+  res.json("You've successfully logged out.")
 });
+
+router.post("/edit-user", isAuthenticated, (req, res) => {
+  User.findByIdAndUpdate(req.user._id, {
+    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    preferredLang: req.body.preferredLang
+  })
+  .then(results => {
+    res.json(results)
+  })
+  .catch(err => {
+    res.json(err.message)
+  })
+})
+
+router.post("/delete", isAuthenticated, (req, res) => {
+  User.findByIdAndRemove(req.user._id)
+  .then(results => {
+    res.json(results)
+  })
+  .catch(err => res.json(err.message))
+})
 
 module.exports = router;
