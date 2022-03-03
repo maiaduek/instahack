@@ -72,7 +72,7 @@ router.post("/signup", (req, res) => {
       })
       .then((user) => {
         // Bind the user to the session object
-        req.session.user = user;
+        // req.session.user = user;
         res.status(201).json(user);
         console.log("NEW USER CREATED:::", user)
       })
@@ -93,7 +93,7 @@ router.post("/signup", (req, res) => {
 
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
-
+  
   if (!username) {
     return res
       .status(400)
@@ -115,16 +115,16 @@ router.post("/login", (req, res, next) => {
       if (!user) {
         return res.status(400).json({ errorMessage: "Wrong credentials." });
       }
-
+      // console.log("USER LOGIN:::",user)
       // If user is found based on the username, check if the in putted password matches the one saved in the database
       bcrypt.compare(password, user.password).then((isSamePassword) => {
         if (!isSamePassword) {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
         
-        const payload = {_id: user._id, username: user.username}
+        // const payload = {_id: user._id, username: user.username}
 
-        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        const authToken = jwt.sign({user}, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         })
@@ -166,10 +166,19 @@ router.post("/edit-user", isAuthenticated, (req, res) => {
         firstName,
         lastName,
         preferredLang
+      }, {
+        new: true
       })
+
       .then(results => {
-      console.log("RESULTS FROM EDITING:::", results)
-      res.json(results)
+      // console.log("RESULTS FROM EDITING:::", results)
+
+      const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
+        algorithm: "HS256",
+        expiresIn: "6h",
+      })
+
+      res.json(authToken)
       })
       .catch(err => {
       res.json(err.message)
