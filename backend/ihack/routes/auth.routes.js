@@ -155,35 +155,53 @@ router.post("/edit-user", isAuthenticated, (req, res) => {
       errorMessage: "Your password needs to be at least 8 characters long.",
     });
   }
-
-  return bcrypt
-    .genSalt(saltRounds)
-    .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => {
-      User.findByIdAndUpdate(req.user._id, {
-        username,
-        password: hashedPassword,
-        firstName,
-        lastName,
-        preferredLang
-      }, {
-        new: true
+  if (password) {
+    return bcrypt
+      .genSalt(saltRounds)
+      .then((salt) => bcrypt.hash(password, salt))
+      .then((hashedPassword) => {
+        User.findByIdAndUpdate(req.user._id, {
+          ...req.body,
+          password: hashedPassword
+        }, {
+          new: true
+        })
+  
+        .then(results => {
+        // console.log("RESULTS FROM EDITING:::", results)
+  
+        const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "6h",
+        })
+  
+        res.json(authToken)
+        })
+        .catch(err => {
+        res.json(err.message)
       })
-
-      .then(results => {
-      // console.log("RESULTS FROM EDITING:::", results)
-
-      const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
-        algorithm: "HS256",
-        expiresIn: "6h",
-      })
-
-      res.json(authToken)
-      })
-      .catch(err => {
-      res.json(err.message)
     })
+  } else {
+    User.findByIdAndUpdate(req.user._id, {
+      ...req.body
+    }, {
+      new: true
+    })
+
+    .then(results => {
+    // console.log("RESULTS FROM EDITING:::", results)
+
+    const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
+      algorithm: "HS256",
+      expiresIn: "6h",
+    })
+
+    res.json(authToken)
+    })
+    .catch(err => {
+    res.json(err.message)
   })
+  }
 })
 
 router.post("/delete", isAuthenticated, (req, res) => {
