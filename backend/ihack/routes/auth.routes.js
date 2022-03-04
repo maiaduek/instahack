@@ -23,6 +23,7 @@ router.get("/loggedin", isAuthenticated, (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
+  console.log("IN SIGNUP", req.body)
   const { username, password, firstName, lastName, preferredLang } = req.body;
 
   if (!username) {
@@ -73,8 +74,13 @@ router.post("/signup", (req, res) => {
       .then((user) => {
         // Bind the user to the session object
         // req.session.user = user;
-        res.status(201).json(user);
-        console.log("NEW USER CREATED:::", user)
+
+        const authToken = jwt.sign({user}, process.env.TOKEN_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "6h",
+        })
+
+        res.status(201).json(authToken);
       })
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {

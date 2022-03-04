@@ -23,11 +23,12 @@ const jwt = require("jsonwebtoken");
 //   } else {
 //     return null;
 //   }
-
 // }
+
 const isAuthenticated = async (req, res, next) => {
   // const token = req.header("Authorization");
-  const token = req.headers.authorization?.split(" ")[1];
+  const token = req.headers.authorization
+  // const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(400).json({ message: "Token not found" });
   try {
     const info = jwt.verify(token, process.env.TOKEN_SECRET);

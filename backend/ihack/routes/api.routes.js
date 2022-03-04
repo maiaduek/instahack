@@ -7,7 +7,6 @@ const Post = require('../models/Post.model')
 router.get("/translate", isAuthenticated, (req, res) => {
   const languages = {
     spanish: 'es',
-    english: 'en',
     hebrew: 'iw',
     french: 'fr',
     portuguese: 'pt',

@@ -5,7 +5,15 @@ const Comment = require('../models/Comment.model')
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 const jwt = require("jsonwebtoken");
 
-
+router.get("/profile", isAuthenticated, (req, res) => {
+  // req.user.posts is array of logged in user's posts
+  User.findById(req.user._id)
+  .populate("posts")
+  .then(foundUser => {
+    res.json(foundUser)
+  })
+  .catch(err => res.json(err.message))
+})
 
 router.get("/all-posts/:userId", isAuthenticated, (req, res) => {
   // req.user.posts is array of logged in user's posts
