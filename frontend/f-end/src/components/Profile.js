@@ -21,7 +21,6 @@ function Profile(props) {
   useEffect(() => {
     get('/auth/loggedin')
     .then(results => {
-      console.log("RESULTS::", results.data.user)
       setName(results.data.user.firstName)
       setPosts(results.data.user.posts)
       setUser(results.data.user)
@@ -32,7 +31,6 @@ function Profile(props) {
   const logout = () => {
     localStorage.removeItem("token")
     setLogUserOut(true)
-    console.log("::LOGGED OUT::")
   }
 
   useEffect(() => {
