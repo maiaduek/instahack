@@ -26,20 +26,24 @@ const jwt = require("jsonwebtoken");
 // }
 
 const isAuthenticated = async (req, res, next) => {
-  // const token = req.header("Authorization");
-  const token = req.headers.authorization
+  const token = req.headers.authorization;
+  //NOTE: if your token authentication is failing in Postman, uncomment the line below, and comment out the line above
   // const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(400).json({ message: "Token not found" });
+  if (!token || token === "null") {
+    console.log("NO TOKEN");
+    return res.status(400).json({ message: "Token not found" });
+  }
   try {
-    const info = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(info);
-    req.user = info.user;
+    const tokenInfo = jwt.verify(token, process.env.TOKEN_SECRET);
+    console.log(tokenInfo);
+    //If you have req.payload, change line 12 to:
+    // req.payload = tokenInfo;
+    req.user = tokenInfo;
     next();
   } catch (error) {
-    return res.json(error.message);
+    return res.json(error);
   }
 };
-
 
 // Export the middleware so that we can use it to create a protected routes
 module.exports = {

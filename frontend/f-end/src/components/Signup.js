@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import {Link} from 'react-router-dom'
-import { get, post } from '../http/service';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import { post } from '../http/service';
 
 function Signup() {
   const [ username, setUsername] = useState('');
@@ -8,6 +8,10 @@ function Signup() {
   const [ firstName, setFirstName] = useState('');
   const [ lastName, setLastName] = useState('');
   const [ preferredLang, setPreferredLang] = useState('');
+  const [error, setError] = useState('');
+  const [loggedIn, setloggedIn] = useState(false)
+
+  const navigate = useNavigate();
 
   const signupUser = (e) => {
     e.preventDefault();
@@ -19,16 +23,22 @@ function Signup() {
       preferredLang
     })
     .then(newUser => {
-      console.log("NEW USER::", newUser)
       localStorage.setItem("token", newUser.data)
+      setloggedIn(true)
     })
-    .catch(err => console.log("ERROR CREATING USER::", err))
+    .catch(err => setError(err.response.data.errorMessage))
   }
 
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/profile') 
+    } 
+  }, [loggedIn])
 
   return (
     <div>
       <h1>Creat an account:</h1>
+      <button onClick={()=> navigate('/')}>home</button>
       <form onSubmit={signupUser}>
         <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
         <input placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
@@ -42,7 +52,8 @@ function Signup() {
           <option value="portguese">Portuguese</option>          
           <option value="chinese">Chinese</option>          
         </select>
-        <Link to="/profile"><button type="submit">Create Account</button></Link>
+        <button type="submit">Create Account</button>
+        {error && <p>{error}</p>}
       </form>
     </div>
   )

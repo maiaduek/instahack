@@ -23,7 +23,6 @@ router.get("/loggedin", isAuthenticated, (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  console.log("IN SIGNUP", req.body)
   const { username, password, firstName, lastName, preferredLang } = req.body;
 
   if (!username) {
@@ -153,7 +152,7 @@ router.get("/logout", isAuthenticated, (req, res) => {
   res.json("You've successfully logged out.")
 });
 
-router.post("/edit-user", isAuthenticated, (req, res) => {
+router.post("/edit-info", isAuthenticated, (req, res) => {
   const {username, password, firstName, lastName, preferredLang} = req.body;
 
   if (password?.length < 8) {

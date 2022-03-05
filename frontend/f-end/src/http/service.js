@@ -20,7 +20,7 @@ export const get = route => {
 export const post = (route, body) => {
   const token = localStorage.getItem("token");
   console.log("in service.js post, this was taken from localStorage", token);
-  console.log("BODY::", body)
+
   return axios.post(`${url}${route}`, body, {
     headers: {
       "Content-Type": "application/json",
