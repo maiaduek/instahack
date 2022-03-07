@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { get } from '../http/service'
+import { get, post } from '../http/service'
 
 function Profile(props) {
   const [name, setName] = useState('')
@@ -8,27 +8,6 @@ function Profile(props) {
   const [logUserOut, setLogUserOut] = useState(false);
 
   const navigate = useNavigate()
-  
-  // useEffect(() => {
-  //   get('/auth/loggedin')
-  //   .then(results => {
-  //     setName(results.data.user.firstName)
-  //     setId(results.data.user._id)
-  //     setUser(results.data.user)
-  //     // setPostsIds(results.data.user.posts)
-  //   })
-  //   .catch(err => console.log(err))
-  // }, [])
-
-  // useEffect(() => {
-  //   console.log("ID", id)
-  //   get(`/post/all-posts/${id}`)
-  //   .then(results => {
-  //     console.log("POSTS::", results.data)
-  //     setPosts(results.data)
-  //   })
-  //   .catch(err => console.log(err))
-  // }, [id])
 
   useEffect(() => {
     get(`/auth/loggedin`)
@@ -50,19 +29,41 @@ function Profile(props) {
     }
   }, [logUserOut])
 
+  const deletePost = (id) => {
+    post(`/post/delete-post/${id}`)
+    .then(results => {
+      get(`/auth/loggedin`)
+      .then(results => {
+      setPosts(results.data.posts)
+      navigate('/profile')
+      })
+    })
+    .catch(err => console.log(err))
+  }
+
+  const deleteUser = () => {
+    post('/auth/delete')
+    .then(results => {
+      navigate('/')
+    })
+    .catch(err => console.log(err))
+  }
+
   return (
     <div>
       <h1>Welcome, {name}</h1>
       <button onClick={() => navigate('/auth/edit-info')}>Edit Info</button>
       <button onClick={() => navigate('/post/create-post')}>Create Post</button>
       <button onClick={logout}>Logout </button>
+      <button onClick={deleteUser}>Delete User</button>
       {
         posts.length ? 
         posts.map((post, i) => {
             return (
               <div key={i}>
-                <p>{post.content}</p>
                 <p>{post.caption}</p>
+                <p>{post.content}</p>
+                <button onClick={() => deletePost(post._id)}>Delete Post</button>
               </div>
             )
           }) : ''

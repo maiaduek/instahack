@@ -15,10 +15,10 @@ function EditInfo(props) {
   useEffect(() => {
     get("/auth/loggedin")
     .then(results => {
-      setUsername(results.data.user.username)
-      setFirstName(results.data.user.firstName);;
-      setLastName(results.data.user.lastName);
-      setPreferredLang(results.data.user.preferredLang);
+      setUsername(results.data.username)
+      setFirstName(results.data.firstName);;
+      setLastName(results.data.lastName);
+      setPreferredLang(results.data.preferredLang);
     })
   }, [])
 
@@ -38,29 +38,41 @@ function EditInfo(props) {
       preferredLang
     })
     .then(updatedUser => {
-      localStorage.setItem("token", updatedUser.data)
       props.setUser(updatedUser.data)
       setChangedInfo(true);
     })
     .catch(err => console.log(err))
   }
 
+  const goBack = () => {
+    navigate('/profile')
+  }
+
+  function changePassword() {
+    navigate('/auth/change-password')
+  }
+
   return (
     <div>
       <form onSubmit={saveUserInfo}>
-        <input value={username} onChange={e => setUsername(e.target.value)}/>
-        {/* <input placeholder="Password" onChange={e => setPassword(e.target.value)}/> */}
-        <input value={firstName} onChange={e => setFirstName(e.target.value)}/>
-        <input value={lastName} onChange={e => setLastName(e.target.value)}/>
-        <select id="preferredLang" onChange={e => setPreferredLang(e.target.value)} defaultValue={preferredLang}>
+        <label htmlFor="username">Username:</label>
+        <input name="username" value={username} onChange={e => setUsername(e.target.value)}/><br></br>
+        <label htmlFor="firstName">First Name:</label>
+        <input name="firstName" value={firstName} onChange={e => setFirstName(e.target.value)}/><br></br>
+        <label htmlFor="lastName">Last Name:</label>
+        <input name="lastName" value={lastName} onChange={e => setLastName(e.target.value)}/><br></br>
+        <label htmlFor="preferredLang">Select Preferred Language:</label>
+        <select name="preferredLang" id="preferredLang" onChange={e => setPreferredLang(e.target.value)} defaultValue={preferredLang}>
           <option value="spanish">Spanish</option>          
           <option value="hebrew">Hebrew</option>          
           <option value="french">French</option>          
           <option value="portguese">Portuguese</option>          
           <option value="chinese">Chinese</option>          
-        </select>
+        </select><br></br>
+        <button onClick={changePassword}>Change Password</button>
         <button type="submit">Save</button>
       </form>
+      <button onClick={goBack}>Back to Profile</button>
     </div>
   )
 }

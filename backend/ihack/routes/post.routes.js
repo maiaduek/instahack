@@ -34,17 +34,14 @@ router.get("/profile", isAuthenticated, (req, res) => {
 
 router.get("/all-posts", isAuthenticated, (req, res) => {
   // req.user.posts is array of logged in user's posts
-  console.log("Req params", req.user)
   Post.find({
     poster: req.user._id
   })
   // .populate("comments")
   .then(foundPosts => {
-    console.log("FOUND POSTS", foundPosts)
     res.json(foundPosts)
   })
   .catch(err => {
-    console.log("ERROR", err.message)
     res.status(500).json(err.message)
   })
 })
@@ -106,7 +103,6 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
       new: true
     })
     .then(updatedPost => {
-      console.log("UPDATED POST", updatedPost)
       res.json(updatedPost)
     })
   })

@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import EditInfo from './components/EditInfo';
 import CreatePost from './components/CreatePost';
+import ChangePassword from './components/ChangePassword';
 
 function App() {
   const [user, setUser] = useState('')
@@ -21,6 +22,7 @@ function App() {
         <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
         <Route path="/auth/edit-info" element={<EditInfo user={user} setUser={setUser}/>} />
         <Route path="/post/create-post" element={<CreatePost />} />
+        <Route path="/auth/change-password" element={<ChangePassword />} />
       </Routes>
     </div>
   );

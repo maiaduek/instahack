@@ -23,7 +23,6 @@ router.get("/loggedin", isAuthenticated, (req, res) => {
   User.findById(req.user._id)
   .populate("posts")
   .then(foundUser => {
-    console.log("FOUND USER::", foundUser)
     res.json(foundUser)
   })
   .catch(err => res.json(err.message))
@@ -81,7 +80,9 @@ router.post("/signup", (req, res) => {
         // Bind the user to the session object
         // req.session.user = user;
 
-        const authToken = jwt.sign({user}, process.env.TOKEN_SECRET, {
+        const payload = {_id: user._id, username: user.username}
+
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         })
@@ -155,6 +156,37 @@ router.post("/login", (req, res, next) => {
     });
 });
 
+router.post("/change-password", isAuthenticated, (req, res) => {
+  console.log("req body", req.body)
+  const { oldPassword, newPassword } = req.body;
+
+  if (oldPassword.length < 8 || newPassword.length < 8) {
+    return res.status(400).json({
+      errorMessage: "Your password needs to be at least 8 characters long.",
+    });
+  }
+
+  User.findOne({ user: req.user.username })
+  .then(foundUser => {
+    bcrypt.compare(oldPassword, foundUser.password).then((isSamePassword) => {
+      if (!isSamePassword) {
+        return res.status(400).json({ errorMessage: "Wrong password." });
+      }
+      bcrypt
+      .genSalt(saltRounds)
+      .then((salt) => bcrypt.hash(newPassword, salt))
+      .then(async(hashedPassword) => {
+        let updatedUser = await User.findByIdAndUpdate(req.user._id, {
+          password: hashedPassword
+        })
+        res.status(200).json(updatedUser)
+      })
+      // return res.status(200).json
+    })
+  })
+  .catch(err => console.log(err.message))
+})
+
 router.get("/logout", isAuthenticated, (req, res) => {
   res.json("You've successfully logged out.")
 });
@@ -202,8 +234,6 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
       new: true
     })
     .then(results => {
-    console.log("RESULTS FROM EDITING:::", results)
-
     const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
       expiresIn: "6h",
@@ -212,7 +242,7 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
     res.json(authToken)
     })
     .catch(err => {
-      console.log("errorrr:::", err.message)
+      console.log("error:", err.message)
     res.json(err.message)
   })
   }
