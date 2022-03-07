@@ -15,16 +15,38 @@ router.get("/profile", isAuthenticated, (req, res) => {
   .catch(err => res.json(err.message))
 })
 
-router.get("/all-posts/:userId", isAuthenticated, (req, res) => {
+// router.get("/all-posts/:userId", isAuthenticated, (req, res) => {
+//   // req.user.posts is array of logged in user's posts
+//   console.log("Req params", req.params.userId)
+//   Post.find({
+//     poster: req.params.userId
+//   })
+//   // .populate("comments")
+//   .then(foundPosts => {
+//     console.log("FOUND POSTS", foundPosts)
+//     res.json(foundPosts)
+//   })
+//   .catch(err => {
+//     console.log("ERROR", err.message)
+//     res.status(500).json(err.message)
+//   })
+// })
+
+router.get("/all-posts", isAuthenticated, (req, res) => {
   // req.user.posts is array of logged in user's posts
+  console.log("Req params", req.user)
   Post.find({
-    poster: req.params.userId
+    poster: req.user._id
   })
-  .populate("comments")
+  // .populate("comments")
   .then(foundPosts => {
+    console.log("FOUND POSTS", foundPosts)
     res.json(foundPosts)
   })
-  .catch(err => res.json(err.message))
+  .catch(err => {
+    console.log("ERROR", err.message)
+    res.status(500).json(err.message)
+  })
 })
 
 router.get("/:id", isAuthenticated, (req, res) => {

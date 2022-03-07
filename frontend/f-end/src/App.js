@@ -7,19 +7,20 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import EditInfo from './components/EditInfo';
+import CreatePost from './components/CreatePost';
 
 function App() {
   const [user, setUser] = useState('')
   console.log("IN APP.JS", user)
   return (
     <div className="App">
-      <h1>APPJS</h1>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/login" element={<Login user={user} setUser={setUser} />} />
         <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
-        <Route path="/edit-info" element={<EditInfo />} />
+        <Route path="/auth/edit-info" element={<EditInfo user={user} setUser={setUser}/>} />
+        <Route path="/post/create-post" element={<CreatePost />} />
       </Routes>
     </div>
   );

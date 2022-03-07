@@ -16,7 +16,6 @@ function Login(props) {
       password
     })
     .then(results => {
-      console.log("LOGED IN::", results)
       localStorage.setItem("token", results.data)
       setLoggedIn(true);
       props.setUser(results.data)

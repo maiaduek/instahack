@@ -4,26 +4,37 @@ import { get } from '../http/service'
 
 function Profile(props) {
   const [name, setName] = useState('')
-  const [posts, setPosts] = useState([]);
-  const [user, setUser] = useState({})
+  const [posts, setPosts] = useState([])
   const [logUserOut, setLogUserOut] = useState(false);
 
   const navigate = useNavigate()
-
-  // const getPosts = () => {
-  //   get("/post/profile")
-  //   .then(foundUser => {
-  //     console.log("FOUND USER::", foundUser.data)
+  
+  // useEffect(() => {
+  //   get('/auth/loggedin')
+  //   .then(results => {
+  //     setName(results.data.user.firstName)
+  //     setId(results.data.user._id)
+  //     setUser(results.data.user)
+  //     // setPostsIds(results.data.user.posts)
   //   })
   //   .catch(err => console.log(err))
-  // }
+  // }, [])
+
+  // useEffect(() => {
+  //   console.log("ID", id)
+  //   get(`/post/all-posts/${id}`)
+  //   .then(results => {
+  //     console.log("POSTS::", results.data)
+  //     setPosts(results.data)
+  //   })
+  //   .catch(err => console.log(err))
+  // }, [id])
 
   useEffect(() => {
-    get('/auth/loggedin')
+    get(`/auth/loggedin`)
     .then(results => {
-      setName(results.data.user.firstName)
-      setPosts(results.data.user.posts)
-      setUser(results.data.user)
+      setPosts(results.data.posts)
+      setName(results.data.firstName)
     })
     .catch(err => console.log(err))
   }, [])
@@ -42,18 +53,19 @@ function Profile(props) {
   return (
     <div>
       <h1>Welcome, {name}</h1>
-      <button onClick={() => navigate('/edit-info')}>Edit Info</button>
-      <button onClick={() => navigate('/create-post')}>Create Post</button>
+      <button onClick={() => navigate('/auth/edit-info')}>Edit Info</button>
+      <button onClick={() => navigate('/post/create-post')}>Create Post</button>
       <button onClick={logout}>Logout </button>
       {
-        posts.map((post) => {
-          return (
-            <div>
-              <p>{post.content}</p>
-              <p>{post.caption}</p>
-            </div>
-          )
-        })
+        posts.length ? 
+        posts.map((post, i) => {
+            return (
+              <div key={i}>
+                <p>{post.content}</p>
+                <p>{post.caption}</p>
+              </div>
+            )
+          }) : ''
       }
     </div>
   )

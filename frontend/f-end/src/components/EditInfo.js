@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { get, post } from '../http/service'
+import { useNavigate } from 'react-router-dom'
 
 function EditInfo(props) {
   const [username, setUsername] = useState('')
@@ -7,17 +8,25 @@ function EditInfo(props) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [preferredLang, setPreferredLang] = useState('')
+  const [changedInfo, setChangedInfo] = useState(false)
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     get("/auth/loggedin")
     .then(results => {
-      console.log("LOGGED IN INFO::", results.data.user);
       setUsername(results.data.user.username)
       setFirstName(results.data.user.firstName);;
       setLastName(results.data.user.lastName);
       setPreferredLang(results.data.user.preferredLang);
     })
   }, [])
+
+  useEffect(() => {
+    if (changedInfo) {
+      navigate('/profile')
+    }
+  }, [changedInfo])
 
   const saveUserInfo = (e) => {
     e.preventDefault();
@@ -29,7 +38,9 @@ function EditInfo(props) {
       preferredLang
     })
     .then(updatedUser => {
-      console.log("UPDATED USER::", updatedUser)
+      localStorage.setItem("token", updatedUser.data)
+      props.setUser(updatedUser.data)
+      setChangedInfo(true);
     })
     .catch(err => console.log(err))
   }

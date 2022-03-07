@@ -19,7 +19,14 @@ router.get("/", (req, res) => {
 })
 
 router.get("/loggedin", isAuthenticated, (req, res) => {
-  res.json(req.user);
+  // res.json(req.user);
+  User.findById(req.user._id)
+  .populate("posts")
+  .then(foundUser => {
+    console.log("FOUND USER::", foundUser)
+    res.json(foundUser)
+  })
+  .catch(err => res.json(err.message))
 });
 
 router.post("/signup", (req, res) => {
@@ -127,9 +134,9 @@ router.post("/login", (req, res, next) => {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
         
-        // const payload = {_id: user._id, username: user.username}
+        const payload = {_id: user._id, username: user.username}
 
-        const authToken = jwt.sign({user}, process.env.TOKEN_SECRET, {
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         })
@@ -160,7 +167,9 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
       errorMessage: "Your password needs to be at least 8 characters long.",
     });
   }
+
   if (password) {
+
     return bcrypt
       .genSalt(saltRounds)
       .then((salt) => bcrypt.hash(password, salt))
@@ -175,7 +184,7 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
         .then(results => {
         // console.log("RESULTS FROM EDITING:::", results)
   
-        const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
+        const authToken = jwt.sign(results, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         })
@@ -192,9 +201,8 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
     }, {
       new: true
     })
-
     .then(results => {
-    // console.log("RESULTS FROM EDITING:::", results)
+    console.log("RESULTS FROM EDITING:::", results)
 
     const authToken = jwt.sign({user: results}, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
@@ -204,6 +212,7 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
     res.json(authToken)
     })
     .catch(err => {
+      console.log("errorrr:::", err.message)
     res.json(err.message)
   })
   }
