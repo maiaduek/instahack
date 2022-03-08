@@ -117,4 +117,4 @@ router.post("/:postId/delete-comment/:commentId", isAuthenticated, (req, res) =>
 })
 
 
-module.exports = router
+module.exports = router;

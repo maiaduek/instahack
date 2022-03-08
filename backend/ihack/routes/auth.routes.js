@@ -181,7 +181,6 @@ router.post("/change-password", isAuthenticated, (req, res) => {
         })
         res.status(200).json(updatedUser)
       })
-      // return res.status(200).json
     })
   })
   .catch(err => console.log(err.message))

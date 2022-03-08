@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {useState} from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -9,6 +8,8 @@ import Profile from './components/Profile';
 import EditInfo from './components/EditInfo';
 import CreatePost from './components/CreatePost';
 import ChangePassword from './components/ChangePassword';
+import PostDetails from './components/PostDetails';
+import CreateComment from './components/CreateComment';
 
 function App() {
   const [user, setUser] = useState('')
@@ -23,6 +24,8 @@ function App() {
         <Route path="/auth/edit-info" element={<EditInfo user={user} setUser={setUser}/>} />
         <Route path="/post/create-post" element={<CreatePost />} />
         <Route path="/auth/change-password" element={<ChangePassword />} />
+        <Route path="/post/:postId" element={<PostDetails />} />
+        <Route path="/post/:postId/create-comment" element={<CreateComment />} />
       </Routes>
     </div>
   );

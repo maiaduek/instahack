@@ -6,6 +6,7 @@ function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
+  const [error, setError] = useState('')
 
   const navigate = useNavigate();
 
@@ -20,7 +21,7 @@ function Login(props) {
       setLoggedIn(true);
       props.setUser(results.data)
     })
-    .catch(err => console.log("ERROR LOGGING IN", err))
+    .catch(err => setError(err.response.data.errorMessage))
   }
 
   useEffect(() => {
@@ -35,6 +36,7 @@ function Login(props) {
         <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
         <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
         <button type="submit">Login</button>
+        {error && <p>{error}</p>}
       </form>
     </div>
   )

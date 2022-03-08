@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { get, post } from '../http/service'
 
 function Profile(props) {
@@ -29,18 +29,6 @@ function Profile(props) {
     }
   }, [logUserOut])
 
-  const deletePost = (id) => {
-    post(`/post/delete-post/${id}`)
-    .then(results => {
-      get(`/auth/loggedin`)
-      .then(results => {
-      setPosts(results.data.posts)
-      navigate('/profile')
-      })
-    })
-    .catch(err => console.log(err))
-  }
-
   const deleteUser = () => {
     post('/auth/delete')
     .then(results => {
@@ -61,9 +49,7 @@ function Profile(props) {
         posts.map((post, i) => {
             return (
               <div key={i}>
-                <p>{post.caption}</p>
-                <p>{post.content}</p>
-                <button onClick={() => deletePost(post._id)}>Delete Post</button>
+                <Link to={`/post/${post._id}`}>{post.caption}</Link>
               </div>
             )
           }) : ''
