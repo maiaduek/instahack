@@ -9,8 +9,11 @@ function PostDetails() {
   
   const [userPost, setUserPost] = useState({});
   const [user, setUser] = useState({});
-  const [translated, setTranslated] = useState(false)
-  const [translatedContent, setTranslatedContent] = useState('')
+  // const [preferredLang, setPreferredLang] = useState('')
+  const [translated, setTranslated] = useState(false);
+  const [translatedContent, setTranslatedContent] = useState('');
+  const [addingComment, setAddingComment] = useState(false);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     get(`/post/${postId}`)
@@ -26,9 +29,13 @@ function PostDetails() {
     get('/auth/loggedin')
     .then(results => {
       setUser(results.data)
+      // setPreferredLang(user.preferredLang)
+      // console.log("USER::: HERE", user)
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log("IN AUTH ERROR", err))
   }, [])
+
+  console.log("USER::", user)
 
   const deletePost = (id) => {
     post(`/post/delete-post/${id}`)
@@ -37,9 +44,8 @@ function PostDetails() {
     })
     .catch(err => console.log(err))
   }
-
+  
   const translate = () => {
-    get("/translate")
       const languages = {
         spanish: 'es',
         hebrew: 'iw',
@@ -48,7 +54,7 @@ function PostDetails() {
         chinese: 'zh-CN'
       }
       let targetLang = languages[user.preferredLang]
-      // console.log("USER P.LANG::", req.user.preferredLang)
+      console.log("targetLANG", targetLang)
       if (!translated) {
         var options = {
           method: 'GET',
@@ -71,18 +77,37 @@ function PostDetails() {
         }
       } 
       axios.request(options)
-      .then(async function (response) {
+      .then(function (response) {
+        console.log("RESPONSE", response.data)
         if (!translatedContent) {
           setTranslatedContent(response.data.translated_text[targetLang])
         } else {
           setTranslatedContent('')
         }
-        await console.log(response.data.translated_text[targetLang]);
+        console.log(response.data.translated_text[targetLang]);
         setTranslated(!translated)
       })
       .catch(function (error) {
-        console.error(error);
+        console.error("IN AXIOS ERROR", error);
       });
+  }
+
+  const addComment = (e) => {
+    if (!addingComment) {
+      setAddingComment(!addingComment)
+    } else {
+      e.preventDefault();
+      post(`/post/${postId}/create-comment`, {
+        comment,
+        commenter: user._id,
+        post: postId
+      })
+      .then(results => {
+        setAddingComment(!addingComment)
+        console.log("comment results::::", results)
+      })
+      .catch(err => console.log("error adding comment:::", err.response))
+    }
   }
 
   return (
@@ -90,9 +115,17 @@ function PostDetails() {
       <h2>{userPost.caption}</h2>
       <p>{translatedContent ? translatedContent : userPost.content}</p>
       <p>{userPost.createdAt?.slice(0, 10)}</p>
-      <button onClick={() => deletePost(userPost._id)}>Delete Post</button>
       <button onClick={translate}>Translate Post</button>
-      <Link to={`/post/${userPost._id}/create-comment`}>Comment</Link>
+      {/* <Link to={`/post/${userPost._id}/create-comment`}>Comment</Link> */}
+      {
+        addingComment ? 
+        <div>
+        <label htmlFor="comment-text">Comment:</label>
+          <textarea name="comment-text" cols="50" rows="4" onChange={e => setComment(e.target.value)}></textarea>
+        </div> : ''
+      }
+      <button onClick={addComment}>Add Comment</button>
+      <button onClick={() => deletePost(userPost._id)}>Delete Post</button>
       <Link to="/profile">Back to Profile</Link>
     </div>
   )

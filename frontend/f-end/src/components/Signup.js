@@ -49,7 +49,7 @@ function Signup() {
           <option value="spanish">Spanish</option>          
           <option value="hebrew">Hebrew</option>          
           <option value="french">French</option>          
-          <option value="portguese">Portuguese</option>          
+          <option value="portuguese">Portuguese</option>          
           <option value="chinese">Chinese</option>          
         </select>
         <button type="submit">Create Account</button>

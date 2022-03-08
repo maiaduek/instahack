@@ -5,7 +5,7 @@ import { url } from './url';
 // GET request- route, headers
 export const get = route => {
   const token = localStorage.getItem("token");
-  console.log("in service.js get, this was taken out of localStorage", token)
+  // console.log("in service.js get, this was taken out of localStorage", token)
 
   return axios.get(`${url}${route}`, {
     headers: {
@@ -19,7 +19,7 @@ export const get = route => {
 // POST request- route, body, headers
 export const post = (route, body) => {
   const token = localStorage.getItem("token");
-  console.log("in service.js post, this was taken from localStorage", token);
+  // console.log("in service.js post, this was taken from localStorage", token);
 
   return axios.post(`${url}${route}`, body, {
     headers: {

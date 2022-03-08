@@ -9,7 +9,6 @@ import EditInfo from './components/EditInfo';
 import CreatePost from './components/CreatePost';
 import ChangePassword from './components/ChangePassword';
 import PostDetails from './components/PostDetails';
-import CreateComment from './components/CreateComment';
 
 function App() {
   const [user, setUser] = useState('')
@@ -25,7 +24,6 @@ function App() {
         <Route path="/post/create-post" element={<CreatePost />} />
         <Route path="/auth/change-password" element={<ChangePassword />} />
         <Route path="/post/:postId" element={<PostDetails />} />
-        <Route path="/post/:postId/create-comment" element={<CreateComment />} />
       </Routes>
     </div>
   );
