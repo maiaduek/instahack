@@ -12,6 +12,7 @@ router.get("/translate", isAuthenticated, (req, res) => {
     portuguese: 'pt',
     chinese: 'zh-CN'
   }
+  
   let targetLang = languages[req.user.preferredLang]
   // console.log("USER P.LANG::", req.user.preferredLang)
   var options = {

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 
 // ℹ️ Handles password encryption
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
 // How many rounds should bcrypt run the salt (default [10 - 12 rounds])
@@ -77,8 +77,6 @@ router.post("/signup", (req, res) => {
         });
       })
       .then((user) => {
-        // Bind the user to the session object
-        // req.session.user = user;
 
         const payload = {_id: user._id, username: user.username}
 
