@@ -89,8 +89,15 @@ router.post("/delete-post/:id", isAuthenticated, (req, res) => {
   .catch(err => res.json(err.message))
 })
 
+router.get("/:postId/comments", isAuthenticated, (req, res) => {
+  Comment.find({ post: req.params.postId })
+  .then(results => {
+    res.json(results)
+  })
+  .catch(err => console.log("ERROR GETTING COMMENTS:", err))
+})
+
 router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
-  // console.log("REQ FROM CREATE COMMENT:::", req)
   Comment.create({
     commentBody: req.body.commentBody,
     commenter: req.user._id,
@@ -103,7 +110,7 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
       new: true
     })
     .then(updatedPost => {
-      res.json(updatedPost)
+      res.json(newComment)
     })
   })
 })

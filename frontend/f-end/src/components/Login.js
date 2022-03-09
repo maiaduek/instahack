@@ -19,7 +19,7 @@ function Login(props) {
     .then(results => {
       localStorage.setItem("token", results.data)
       setLoggedIn(true);
-      props.setUser(results.data)
+      // props.setUser(results.data)
     })
     .catch(err => setError(err.response.data.errorMessage))
   }

@@ -12,7 +12,7 @@ router.get("/translate", isAuthenticated, (req, res) => {
     portuguese: 'pt',
     chinese: 'zh-CN'
   }
-  
+
   let targetLang = languages[req.user.preferredLang]
   // console.log("USER P.LANG::", req.user.preferredLang)
   var options = {
@@ -27,7 +27,7 @@ router.get("/translate", isAuthenticated, (req, res) => {
   // console.log("REQ USER;::::",req.user)
   axios.request(options)
   .then(function (response) {
-    console.log(response.data);
+    // console.log(response.data);
     res.json(response.data.translated_text[targetLang])
   })
   .catch(function (error) {

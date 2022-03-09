@@ -155,7 +155,7 @@ router.post("/login", (req, res, next) => {
 });
 
 router.post("/change-password", isAuthenticated, (req, res) => {
-  console.log("req body", req.body)
+  // console.log("req body", req.body)
   const { oldPassword, newPassword } = req.body;
 
   if (oldPassword.length < 8 || newPassword.length < 8) {

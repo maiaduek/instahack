@@ -9,11 +9,11 @@ function PostDetails() {
   
   const [userPost, setUserPost] = useState({});
   const [user, setUser] = useState({});
-  // const [preferredLang, setPreferredLang] = useState('')
   const [translated, setTranslated] = useState(false);
   const [translatedContent, setTranslatedContent] = useState('');
   const [addingComment, setAddingComment] = useState(false);
   const [comment, setComment] = useState('');
+  const [postComments, setPostComments] = useState([]);
 
   useEffect(() => {
     get(`/post/${postId}`)
@@ -29,13 +29,18 @@ function PostDetails() {
     get('/auth/loggedin')
     .then(results => {
       setUser(results.data)
-      // setPreferredLang(user.preferredLang)
-      // console.log("USER::: HERE", user)
     })
     .catch(err => console.log("IN AUTH ERROR", err))
   }, [])
 
-  console.log("USER::", user)
+  useEffect(() => {
+    get(`/post/${postId}/comments`)
+    .then((results) => {
+      console.log("RESULTS::", results.data)
+      setPostComments(results.data)
+    })
+    .catch(err => console.log("ERR GETTING COMMENTS:::", err))
+  }, [])
 
   const deletePost = (id) => {
     post(`/post/delete-post/${id}`)
@@ -98,16 +103,30 @@ function PostDetails() {
     } else {
       e.preventDefault();
       post(`/post/${postId}/create-comment`, {
-        comment,
+        commentBody: comment,
         commenter: user._id,
         post: postId
       })
+      .then((res) => {
+        console.log("POST COMMENTS", res)
+        setPostComments(postComments.concat(res.data))
+      })
       .then(results => {
         setAddingComment(!addingComment)
-        console.log("comment results::::", results)
       })
-      .catch(err => console.log("error adding comment:::", err.response))
+      .catch(err => console.log("error adding comment::", err))
     }
+  }
+
+  const deleteComment = (cmt) => {
+    post(`/post/${postId}/delete-comment/${cmt}`)
+    .then(deletedComment => {
+      let filteredComments = postComments.filter(comment => {
+        return comment._id !== cmt
+      })
+      setPostComments(filteredComments)
+    })
+    .catch(err => console.log("ERR DELETING COMMENT", err))
   }
 
   return (
@@ -116,7 +135,16 @@ function PostDetails() {
       <p>{translatedContent ? translatedContent : userPost.content}</p>
       <p>{userPost.createdAt?.slice(0, 10)}</p>
       <button onClick={translate}>Translate Post</button>
-      {/* <Link to={`/post/${userPost._id}/create-comment`}>Comment</Link> */}
+      {
+          postComments.map((cmt, i) => {
+          return (
+            <div key={i}>
+              <p>{cmt.commentBody}</p>
+              <button onClick={() => deleteComment(cmt._id)}>Delete</button>
+            </div>
+          )
+        })
+      }
       {
         addingComment ? 
         <div>

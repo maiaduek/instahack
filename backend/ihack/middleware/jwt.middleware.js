@@ -35,7 +35,7 @@ const isAuthenticated = async (req, res, next) => {
   }
   try {
     const tokenInfo = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(tokenInfo);
+    // console.log(tokenInfo);
     //If you have req.payload, change line 12 to:
     // req.payload = tokenInfo;
     req.user = tokenInfo;
