@@ -14,6 +14,7 @@ function PostDetails() {
   const [addingComment, setAddingComment] = useState(false);
   const [comment, setComment] = useState('');
   const [postComments, setPostComments] = useState([]);
+  const [currentProfile, setCurrentProfile] = useState({});
 
   useEffect(() => {
     get(`/post/${postId}`)
@@ -34,9 +35,16 @@ function PostDetails() {
   }, [])
 
   useEffect(() => {
+    get(`/post/profile/${userPost.poster}`)
+    .then(results => {
+      setCurrentProfile(results.data)
+    })
+    .catch(err => console.log("error getting profile::", err))
+  }, [userPost])
+
+  useEffect(() => {
     get(`/post/${postId}/comments`)
     .then((results) => {
-      console.log("RESULTS::", results.data)
       setPostComments(results.data)
     })
     .catch(err => console.log("ERR GETTING COMMENTS:::", err))
@@ -45,7 +53,7 @@ function PostDetails() {
   const deletePost = (id) => {
     post(`/post/delete-post/${id}`)
     .then(results => {
-      navigate('/profile')
+      navigate(`/profile/${user._id}`)
     })
     .catch(err => console.log(err))
   }
@@ -59,7 +67,7 @@ function PostDetails() {
         chinese: 'zh-CN'
       }
       let targetLang = languages[user.preferredLang]
-      console.log("targetLANG", targetLang)
+      // console.log("targetLANG", targetLang)
       if (!translated) {
         var options = {
           method: 'GET',
@@ -83,13 +91,13 @@ function PostDetails() {
       } 
       axios.request(options)
       .then(function (response) {
-        console.log("RESPONSE", response.data)
+        // console.log("RESPONSE", response.data)
         if (!translatedContent) {
           setTranslatedContent(response.data.translated_text[targetLang])
         } else {
           setTranslatedContent('')
         }
-        console.log(response.data.translated_text[targetLang]);
+        // console.log(response.data.translated_text[targetLang]);
         setTranslated(!translated)
       })
       .catch(function (error) {
@@ -105,7 +113,8 @@ function PostDetails() {
       post(`/post/${postId}/create-comment`, {
         commentBody: comment,
         commenter: user._id,
-        post: postId
+        post: postId,
+        commenterName: user.username
       })
       .then((res) => {
         console.log("POST COMMENTS", res)
@@ -139,6 +148,7 @@ function PostDetails() {
           postComments.map((cmt, i) => {
           return (
             <div key={i}>
+              <p>By: <a href={`/profile/${cmt.commenter}`}>{cmt.commenterName}</a></p>
               <p>{cmt.commentBody}</p>
               <button onClick={() => deleteComment(cmt._id)}>Delete</button>
             </div>
@@ -154,7 +164,8 @@ function PostDetails() {
       }
       <button onClick={addComment}>Add Comment</button>
       <button onClick={() => deletePost(userPost._id)}>Delete Post</button>
-      <Link to="/profile">Back to Profile</Link>
+      <p>{currentProfile._id}</p>
+      <Link to={`/profile/${currentProfile._id}`}>Back to Profile</Link>
     </div>
   )
 }

@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router';
 import { get, post } from '../http/service';
 
 function ChangePassword() {
-  const [oldPassword, setOldPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [error, setError] = useState('')
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [id, setId] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
     get('/auth/loggedin')
     .then(results => {
-
+      setId(results.data._id)
     })
     .catch(err => console.log(err))
   }, [])
@@ -25,7 +26,7 @@ function ChangePassword() {
     })
     .then(results => {
       console.log("IN THEN, RESULTS", results)
-      navigate('/profile')
+      navigate(`/profile/${id}`)
     })
     .catch(err => {
       console.log("ERROR::", err.message)

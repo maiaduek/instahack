@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { post } from '../http/service';
+import { useNavigate, Link } from 'react-router-dom';
+import { post, get } from '../http/service';
 
 function Login(props) {
   const [username, setUsername] = useState('');
@@ -19,14 +19,17 @@ function Login(props) {
     .then(results => {
       localStorage.setItem("token", results.data)
       setLoggedIn(true);
-      // props.setUser(results.data)
+      
     })
     .catch(err => setError(err.response.data.errorMessage))
   }
 
   useEffect(() => {
     if (loggedIn) {
-      navigate('/profile')
+      get("/auth/loggedin")
+      .then(results => {
+        navigate(`/profile/${results.data._id}`)
+      })
     }
   }, [loggedIn])
 
@@ -37,6 +40,7 @@ function Login(props) {
         <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
         <button type="submit">Login</button>
         {error && <p>{error}</p>}
+        <Link to="/">Home</Link>
       </form>
     </div>
   )

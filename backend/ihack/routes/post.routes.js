@@ -5,32 +5,15 @@ const Comment = require('../models/Comment.model')
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 const jwt = require("jsonwebtoken");
 
-router.get("/profile", isAuthenticated, (req, res) => {
+router.get("/profile/:userId", isAuthenticated, (req, res) => {
   // req.user.posts is array of logged in user's posts
-  User.findById(req.user._id)
+  User.findById(req.params.userId)
   .populate("posts")
   .then(foundUser => {
     res.json(foundUser)
   })
   .catch(err => res.json(err.message))
 })
-
-// router.get("/all-posts/:userId", isAuthenticated, (req, res) => {
-//   // req.user.posts is array of logged in user's posts
-//   console.log("Req params", req.params.userId)
-//   Post.find({
-//     poster: req.params.userId
-//   })
-//   // .populate("comments")
-//   .then(foundPosts => {
-//     console.log("FOUND POSTS", foundPosts)
-//     res.json(foundPosts)
-//   })
-//   .catch(err => {
-//     console.log("ERROR", err.message)
-//     res.status(500).json(err.message)
-//   })
-// })
 
 router.get("/all-posts", isAuthenticated, (req, res) => {
   // req.user.posts is array of logged in user's posts
@@ -101,7 +84,8 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
   Comment.create({
     commentBody: req.body.commentBody,
     commenter: req.user._id,
-    post: req.params.postId
+    post: req.params.postId,
+    commenterName: req.user.username
   })
   .then(newComment => {
     Post.findByIdAndUpdate(req.params.postId, {

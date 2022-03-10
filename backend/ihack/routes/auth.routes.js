@@ -28,6 +28,15 @@ router.get("/loggedin", isAuthenticated, (req, res) => {
   .catch(err => res.json(err.message))
 });
 
+router.get("/:userId", (req, res) => {
+  User.findById(req.params.userId)
+  .then(foundUser => {
+    console.log("FOUND USER:", foundUser)
+    res.json(foundUser)
+  })
+  .catch(err => console.log("Error finding user::", err.message))
+})
+
 router.post("/signup", (req, res) => {
   const { username, password, firstName, lastName, preferredLang } = req.body;
 

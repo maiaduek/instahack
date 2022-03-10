@@ -9,16 +9,18 @@ function EditInfo(props) {
   const [lastName, setLastName] = useState('')
   const [preferredLang, setPreferredLang] = useState('')
   const [changedInfo, setChangedInfo] = useState(false)
+  const [id, setId] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
     get("/auth/loggedin")
     .then(results => {
-      setUsername(results.data.username)
-      setFirstName(results.data.firstName);;
+      setUsername(results.data.username);
+      setFirstName(results.data.firstName);
       setLastName(results.data.lastName);
       setPreferredLang(results.data.preferredLang);
+      setId(results.data._id);
     })
   }, [])
 
@@ -45,7 +47,7 @@ function EditInfo(props) {
   }
 
   const goBack = () => {
-    navigate('/profile')
+    navigate(`/profile/${id}`)
   }
 
   function changePassword() {

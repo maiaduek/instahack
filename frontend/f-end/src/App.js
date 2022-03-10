@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/auth/login" element={<Login user={user} setUser={setUser} />} />
-        <Route path="/profile" element={<Profile user={user} setUser={setUser} />} />
+        <Route path="/profile/:userId" element={<Profile user={user} setUser={setUser} />} />
         <Route path="/auth/edit-info" element={<EditInfo user={user} setUser={setUser}/>} />
         <Route path="/post/create-post" element={<CreatePost />} />
         <Route path="/auth/change-password" element={<ChangePassword />} />

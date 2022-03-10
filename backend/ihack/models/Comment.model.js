@@ -12,6 +12,9 @@ const commentSchema = new Schema({
   post: {
     type: Types.ObjectId,
     ref: "Post"
+  },
+  commenterName: {
+    type: String
   }
 }, {
   timestamps: true

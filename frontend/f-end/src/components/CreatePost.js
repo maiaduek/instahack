@@ -13,14 +13,15 @@ function CreatePost() {
 
   useEffect(() => {
     if (finishedPost) {
-      navigate("/profile")
+      // console.log("FINISHED POST", poster)
+      navigate(`/profile/${poster}`)
     }
   }, [finishedPost])
 
   useEffect(() => {
     get('/auth/loggedin')
     .then(results => {
-      setPoster(results.data.user._id)
+      setPoster(results.data._id)
     })
     .catch(err => console.log(err))
   }, [])

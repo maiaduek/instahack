@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { post } from '../http/service';
+import { post, get } from '../http/service';
 
 function Signup() {
   const [ username, setUsername] = useState('');
@@ -31,8 +31,11 @@ function Signup() {
 
   useEffect(() => {
     if (loggedIn) {
-      navigate('/profile') 
-    } 
+      get("/auth/loggedin")
+      .then(results => {
+        navigate(`/profile/${results.data._id}`)
+      })
+    }
   }, [loggedIn])
 
   return (
