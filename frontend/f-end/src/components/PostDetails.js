@@ -117,7 +117,7 @@ function PostDetails() {
         commenterName: user.username
       })
       .then((res) => {
-        console.log("POST COMMENTS", res)
+        // console.log("POST COMMENTS", res)
         setPostComments(postComments.concat(res.data))
       })
       .then(results => {
