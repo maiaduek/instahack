@@ -26,7 +26,7 @@ function EditInfo(props) {
 
   useEffect(() => {
     if (changedInfo) {
-      navigate('/profile')
+      navigate(`/profile/${id}`)
     }
   }, [changedInfo])
 
@@ -56,25 +56,64 @@ function EditInfo(props) {
 
   return (
     <div>
+      <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
+        <h1 className="text-white ms-3">InstaHack</h1>
+        <ul className="nav">
+          <li className="m-3">
+          <button onClick={goBack} className="btn btn-primary">Back to Profile</button>
+          </li>
+        </ul>
+      </nav>
+      <h2 className="text-primary m-4 d-flex justify-content-start">Edit your Info:</h2>
+
       <form onSubmit={saveUserInfo}>
-        <label htmlFor="username">Username:</label>
-        <input name="username" value={username} onChange={e => setUsername(e.target.value)}/><br></br>
-        <label htmlFor="firstName">First Name:</label>
-        <input name="firstName" value={firstName} onChange={e => setFirstName(e.target.value)}/><br></br>
-        <label htmlFor="lastName">Last Name:</label>
-        <input name="lastName" value={lastName} onChange={e => setLastName(e.target.value)}/><br></br>
-        <label htmlFor="preferredLang">Select Preferred Language:</label>
-        <select name="preferredLang" id="preferredLang" onChange={e => setPreferredLang(e.target.value)} defaultValue={preferredLang}>
-          <option value="spanish">Spanish</option>          
-          <option value="hebrew">Hebrew</option>          
-          <option value="french">French</option>          
-          <option value="portguese">Portuguese</option>          
-          <option value="chinese">Chinese</option>          
-        </select><br></br>
-        <button onClick={changePassword}>Change Password</button>
-        <button type="submit">Save</button>
+        <div className="m-3">
+          <label htmlFor="username" className="form-label">Username:</label>
+          <input placeholder="Insthacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+        </div>
+        <div className="m-3">
+          <label htmlFor="firstName" className="form-label">First Name:</label>
+          <input placeholder="Insta" className="form-control" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
+        </div>
+        <div className="m-3">
+          <label htmlFor="lastName" className="form-label">Last Name:</label>
+          <input placeholder="Hacker" className="form-control" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
+        </div>
+        <div className="m-3">
+          <label htmlFor="preferredLang">Preferred Language:</label>
+          <select id="preferredLang" className="form-select form-select mb-3" aria-label=".form-select-lg example" onChange={e => setPreferredLang(e.target.value)}>
+            <option defaultValue>Choose a language</option>
+            <option value="spanish">Spanish</option>
+            <option value="hebrew">Hebrew</option>
+            <option value="french">French</option>
+            <option value="portuguese">Portuguese</option>
+            <option value="chinese">Chinese</option>
+          </select>
+        </div>
+        <button onClick={changePassword} className="btn btn-primary m-3">Change Password</button>
+        <button type="submit" className="btn btn-primary m-3">Save</button>
       </form>
-      <button onClick={goBack}>Back to Profile</button>
+    {/* </div> */}
+
+
+      {/* // <form onSubmit={saveUserInfo}>
+      //   <label htmlFor="username">Username:</label>
+      //   <input name="username" value={username} onChange={e => setUsername(e.target.value)}/><br></br>
+      //   <label htmlFor="firstName">First Name:</label>
+      //   <input name="firstName" value={firstName} onChange={e => setFirstName(e.target.value)}/><br></br>
+      //   <label htmlFor="lastName">Last Name:</label>
+      //   <input name="lastName" value={lastName} onChange={e => setLastName(e.target.value)}/><br></br>
+      //   <label htmlFor="preferredLang">Select Preferred Language:</label>
+      //   <select name="preferredLang" id="preferredLang" onChange={e => setPreferredLang(e.target.value)} defaultValue={preferredLang}>
+      //     <option value="spanish">Spanish</option>          
+      //     <option value="hebrew">Hebrew</option>          
+      //     <option value="french">French</option>          
+      //     <option value="portguese">Portuguese</option>          
+      //     <option value="chinese">Chinese</option>          
+      //   </select><br></br>
+      //   <button onClick={changePassword}>Change Password</button>
+      //   <button type="submit">Save</button>
+      // </form> */}
     </div>
   )
 }

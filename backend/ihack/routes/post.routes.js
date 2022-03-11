@@ -81,6 +81,7 @@ router.get("/:postId/comments", isAuthenticated, (req, res) => {
 })
 
 router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
+  console.log("HERE", req.body)
   Comment.create({
     commentBody: req.body.commentBody,
     commenter: req.user._id,

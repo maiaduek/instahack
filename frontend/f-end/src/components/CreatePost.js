@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { post, get } from '../http/service';
 
 
@@ -41,6 +41,14 @@ function CreatePost() {
 
   return (
     <div>
+      <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
+        <h1 className="text-white ms-3">InstaHack</h1>
+        <ul className="nav">
+          <li className="m-3">
+          <Link to={`/profile/${poster}`} className="btn btn-primary">Back to Profile</Link>
+          </li>
+        </ul>
+      </nav>
       <h1>Create your post:</h1>
       <form onSubmit={submitPost}>
         <div>

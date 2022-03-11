@@ -140,32 +140,54 @@ function PostDetails() {
 
   return (
     <div>
-      <h2>{userPost.caption}</h2>
-      <p>{translatedContent ? translatedContent : userPost.content}</p>
-      <p>{userPost.createdAt?.slice(0, 10)}</p>
-      <button onClick={translate}>Translate Post</button>
-      {
-          postComments.map((cmt, i) => {
-          return (
-            <div key={i}>
-              <p>By: <a href={`/profile/${cmt.commenter}`}>{cmt.commenterName}</a></p>
-              <p>{cmt.commentBody}</p>
-              <button onClick={() => deleteComment(cmt._id)}>Delete</button>
+      <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
+        <h1 className="text-white ms-3">InstaHack</h1>
+        <ul className="nav">
+          <li className="m-3">
+          <Link to={`/profile/${currentProfile._id}`} className="btn btn-primary">Back to Profile</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div className="card mb-3 mt-5 ms-5" style={{maxWidth: "800px"}}>
+        <div className="row g-0">
+          <div className="col-md-4">
+            <img src="https://thumbs.dreamstime.com/b/man-hipster-avatar-cartoon-guy-black-hair-man-hipster-avatar-cartoon-guy-black-hair-flat-icon-blue-background-user-223717055.jpg" className="img-fluid rounded-start" alt="..."/>
+          </div>
+          <div className="col-md-8">
+            <div className="card-body">
+              <h3 className="card-title">{userPost.caption}</h3>
+              <p className="card-text mt-5">{translatedContent ? translatedContent : userPost.content}</p>
+              <p className="card-text"><small className="text-muted">By: <a href={`/profile/${currentProfile._id}`}>{currentProfile.username}</a></small></p>
+              <p className="card-text"><small className="text-muted">Published: {userPost.createdAt?.slice(0,10)}</small></p>
+              <button onClick={translate} className="btn btn-outline-primary">Translate</button>
+              <button onClick={() => deletePost(userPost._id)} className="btn btn-outline-primary ms-2">Delete Post</button>
             </div>
+          </div>
+        </div>
+      </div>
+      {
+        addingComment ? 
+        <div className="d-flex justify-content-center align-items-center">
+        <label htmlFor="comment-text mr-5">Comment:</label>
+          <textarea className="ms-5 mb-2" name="comment-text" cols="50" rows="4" onChange={e => setComment(e.target.value)}></textarea>
+        </div> : ''
+      }
+      <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40">Add Comment</button>
+
+        {
+          postComments.map((cmt, i) => {
+            return (
+              <div class="card ms-5" style={{maxWidth: "800px"}}>
+                <div class="card-body">
+                  <h5 class="card-title"><a href={`/profile/${cmt.commenter}`}>{cmt.commenterName} says</a></h5>
+                  <p class="card-text">{cmt.commentBody}</p>
+                  <button onClick={() => deleteComment(userPost._id)} className="btn btn-outline-primary">Delete</button>
+                </div>
+              </div>
           )
         })
       }
-      {
-        addingComment ? 
-        <div>
-        <label htmlFor="comment-text">Comment:</label>
-          <textarea name="comment-text" cols="50" rows="4" onChange={e => setComment(e.target.value)}></textarea>
-        </div> : ''
-      }
-      <button onClick={addComment}>Add Comment</button>
-      <button onClick={() => deletePost(userPost._id)}>Delete Post</button>
-      <p>{currentProfile._id}</p>
-      <Link to={`/profile/${currentProfile._id}`}>Back to Profile</Link>
     </div>
   )
 }

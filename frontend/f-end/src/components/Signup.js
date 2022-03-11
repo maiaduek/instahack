@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { post, get } from '../http/service';
 
 function Signup() {
@@ -40,22 +40,45 @@ function Signup() {
 
   return (
     <div>
-      <h1>Creat an account:</h1>
-      <button onClick={()=> navigate('/')}>home</button>
+      <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
+        <h1 className="text-white ms-3">InstaHack</h1>
+        <ul className="nav">
+          <li className="m-3">
+            <Link className="text-white text-decoration-none" to="/">Home</Link>
+          </li>
+        </ul>
+      </nav>
+      <h2 className="text-primary m-4 d-flex justify-content-start">Join us:</h2>
       <form onSubmit={signupUser}>
-        <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
-        <input placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-        <input placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} />
-        <input placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
-        <label htmlFor="preferredLang">Preferred Language:</label>
-        <select id="preferredLang" onChange={e => setPreferredLang(e.target.value)}>
-          <option value="spanish">Spanish</option>          
-          <option value="hebrew">Hebrew</option>          
-          <option value="french">French</option>          
-          <option value="portuguese">Portuguese</option>          
-          <option value="chinese">Chinese</option>          
-        </select>
-        <button type="submit">Create Account</button>
+        <div className="m-3">
+          <label htmlFor="username" className="form-label">Username:</label>
+          <input placeholder="Insthacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+        </div>
+        <div className="m-3"> 
+          <label htmlFor="password" className="form-label">Password:</label>
+          <input placeholder="********" type="password" className="form-control" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
+          <div id="emailHelp" className="form-text">Please choose a password with at least 8 characters.</div>
+        </div>
+        <div className="m-3">
+          <label htmlFor="firstName" className="form-label">First Name:</label>
+          <input placeholder="Insta" className="form-control" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
+        </div>
+        <div className="m-3">
+          <label htmlFor="lastName" className="form-label">Last Name:</label>
+          <input placeholder="Hacker" className="form-control" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
+        </div>
+        <div className="m-3">
+          <label htmlFor="preferredLang">Preferred Language:</label>
+          <select id="preferredLang" className="form-select form-select mb-3" aria-label=".form-select-lg example" onChange={e => setPreferredLang(e.target.value)}>
+            <option defaultValue>Choose a language</option>
+            <option value="spanish">Spanish</option>
+            <option value="hebrew">Hebrew</option>
+            <option value="french">French</option>
+            <option value="portuguese">Portuguese</option>
+            <option value="chinese">Chinese</option>
+          </select>
+        </div>
+        <button type="submit" className="btn btn-primary">Create Account</button>
         {error && <p>{error}</p>}
       </form>
     </div>
