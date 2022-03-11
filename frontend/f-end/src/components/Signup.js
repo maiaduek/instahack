@@ -49,38 +49,40 @@ function Signup() {
         </ul>
       </nav>
       <h2 className="text-primary m-4 d-flex justify-content-start">Join us:</h2>
-      <form onSubmit={signupUser}>
-        <div className="m-3">
-          <label htmlFor="username" className="form-label">Username:</label>
-          <input placeholder="Insthacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
-        </div>
-        <div className="m-3"> 
-          <label htmlFor="password" className="form-label">Password:</label>
-          <input placeholder="********" type="password" className="form-control" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
-          <div id="emailHelp" className="form-text">Please choose a password with at least 8 characters.</div>
-        </div>
-        <div className="m-3">
-          <label htmlFor="firstName" className="form-label">First Name:</label>
-          <input placeholder="Insta" className="form-control" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
-        </div>
-        <div className="m-3">
-          <label htmlFor="lastName" className="form-label">Last Name:</label>
-          <input placeholder="Hacker" className="form-control" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
-        </div>
-        <div className="m-3">
-          <label htmlFor="preferredLang">Preferred Language:</label>
-          <select id="preferredLang" className="form-select form-select mb-3" aria-label=".form-select-lg example" onChange={e => setPreferredLang(e.target.value)}>
-            <option defaultValue>Choose a language</option>
-            <option value="spanish">Spanish</option>
-            <option value="hebrew">Hebrew</option>
-            <option value="french">French</option>
-            <option value="portuguese">Portuguese</option>
-            <option value="chinese">Chinese</option>
-          </select>
-        </div>
-        <button type="submit" className="btn btn-primary">Create Account</button>
-        {error && <p>{error}</p>}
-      </form>
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <form onSubmit={signupUser} style={{width: "600px"}}>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+            <label htmlFor="username" className="form-label" style={{marginRight: "10px"}}>Username:</label>
+            <input placeholder="Instahacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+          </div>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}> 
+            <label htmlFor="password" className="form-label" style={{marginRight: "10px"}}>Password:</label>
+            <input placeholder="********" type="password" className="form-control" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
+          </div>
+            <div id="emailHelp" className="form-text">Please choose a password with at least 8 characters.</div>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "spaceBetween"}}>
+            <label htmlFor="firstName" className="form-label" style={{marginRight: "10px"}}>First Name:</label>
+            <input placeholder="Insta" className="form-control" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
+          </div>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+            <label htmlFor="lastName" className="form-label" style={{marginRight: "10px"}}>Last Name:</label>
+            <input placeholder="Hacker" className="form-control" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
+          </div>
+          <div className="m-3">
+            <label htmlFor="preferredLang">Preferred Language:</label>
+            <select id="preferredLang" className="form-select form-select mb-3" aria-label=".form-select-lg example" onChange={e => setPreferredLang(e.target.value)}>
+              <option defaultValue>Choose a language</option>
+              <option value="spanish">Spanish</option>
+              <option value="hebrew">Hebrew</option>
+              <option value="french">French</option>
+              <option value="portuguese">Portuguese</option>
+              <option value="chinese">Chinese</option>
+            </select>
+          </div>
+          <button type="submit" className="btn btn-primary" style={{marginTop: "50px"}}>Create Account</button>
+          {error && <p>{error}</p>}
+        </form>
+      </div>
     </div>
   )
 }

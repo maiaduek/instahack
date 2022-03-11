@@ -44,21 +44,24 @@ function Login(props) {
         </ul>
       </nav>
       <h2 className="text-primary m-4 d-flex justify-content-start">Login:</h2>
-      <form onSubmit={loginUser}>
-        <div className="m-3">
-          <label htmlFor="username" className="form-label">Username:</label>
-          <input placeholder="Insthacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+      <div style={{display: "flex", justifyContent: "center"}}>
+        
+        <form onSubmit={loginUser} style={{width: "600px"}}>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+            <label htmlFor="username" className="form-label" style={{marginRight: "10px"}}>Username:</label>
+            <input placeholder="Insthacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+          </div>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
+            <label htmlFor="password" className="form-label" style={{marginRight: "10px"}}>Password:</label>
+            <input placeholder="********" type="password" value={password} className="form-control" id="password" onChange={e => setPassword(e.target.value)} />
+          </div>
+            <div id="emailHelp" className="form-text">Please choose a password with at least 8 characters.</div>
+          {/* <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} /> */}
+          {/* <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} /> */}
+          <button type="submit" className="btn btn-primary" style={{marginTop: "50px", marginBottom: "30px"}}>Login</button>
+          {error && <p style={{color: "red"}}>{error}</p>}
+        </form>
         </div>
-        <div className="m-3">
-          <label htmlFor="password" className="form-label">Password:</label>
-          <input placeholder="********" type="password" value={password} className="form-control" id="password" onChange={e => setPassword(e.target.value)} />
-          <div id="emailHelp" className="form-text">Please choose a password with at least 8 characters.</div>
-        </div>
-        {/* <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} /> */}
-        {/* <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} /> */}
-        <button type="submit" className="btn btn-primary">Login</button>
-        {error && <p>{error}</p>}
-      </form>
     </div>
   )
 }

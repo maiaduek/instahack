@@ -49,8 +49,23 @@ function CreatePost() {
           </li>
         </ul>
       </nav>
-      <h1>Create your post:</h1>
+      <h2 className="text-primary m-4 d-flex justify-content-start">Create a post:</h2>
+
       <form onSubmit={submitPost}>
+        <div className="m-5">
+          <label htmlFor="caption" className="form-label">Caption:</label>
+          <input className="form-control" id="caption" onChange={(e) => setCaption(e.target.value)} value={caption}/>
+        </div>
+        <div className="m-5">
+          <label htmlFor="content" className="form-label">Content:</label>
+          <textarea className="form-control" id="content" rows="3" onChange={(e) => {setContent(e.target.value)}} value={content}></textarea>
+        </div>
+        <button className="btn btn-outline-primary" type="submit">Submit</button>
+      </form>
+
+
+
+      {/* <form onSubmit={submitPost}>
         <div>
           <label htmlFor="post">Compose your post:</label>
           <textarea name="post" rows="4" cols="50" onChange={e => setContent(e.target.value)}></textarea>
@@ -60,7 +75,7 @@ function CreatePost() {
           <textarea name="caption" rows="1" cols="50" onChange={e => setCaption(e.target.value)}></textarea>
         </div>
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
     </div>
   )
 }

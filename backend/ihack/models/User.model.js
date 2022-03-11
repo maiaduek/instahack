@@ -16,6 +16,9 @@ const userSchema = new Schema(
       type: String
     },
     lastName: String,
+    bio: {
+      type: String
+    },
     preferredLang: String,
     posts: [{
       type: Types.ObjectId,
