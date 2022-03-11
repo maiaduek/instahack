@@ -10,7 +10,6 @@ router.get("/profile/:userId", isAuthenticated, (req, res) => {
   User.findById(req.params.userId)
   .populate("posts")
   .then(foundUser => {
-    console.log(":::", foundUser.posts)
     res.json(foundUser)
   })
   .catch(err => res.json(err.message))

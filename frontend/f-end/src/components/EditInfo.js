@@ -69,15 +69,15 @@ function EditInfo(props) {
       <form onSubmit={saveUserInfo}>
         <div className="m-3">
           <label htmlFor="username" className="form-label">Username:</label>
-          <input placeholder="Insthacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+          <input placeholder="Insthacker1" id="username" className="form-control input-sm shadow" value={username} onChange={e => setUsername(e.target.value)} />
         </div>
         <div className="m-3">
           <label htmlFor="firstName" className="form-label">First Name:</label>
-          <input placeholder="Insta" className="form-control" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
+          <input placeholder="Insta" className="form-control shadow" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
         </div>
         <div className="m-3">
           <label htmlFor="lastName" className="form-label">Last Name:</label>
-          <input placeholder="Hacker" className="form-control" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
+          <input placeholder="Hacker" className="form-control shadow" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
         </div>
         <div className="m-3">
           <label htmlFor="preferredLang">Preferred Language:</label>
@@ -93,27 +93,6 @@ function EditInfo(props) {
         <button onClick={changePassword} className="btn btn-primary m-3">Change Password</button>
         <button type="submit" className="btn btn-primary m-3">Save</button>
       </form>
-    {/* </div> */}
-
-
-      {/* // <form onSubmit={saveUserInfo}>
-      //   <label htmlFor="username">Username:</label>
-      //   <input name="username" value={username} onChange={e => setUsername(e.target.value)}/><br></br>
-      //   <label htmlFor="firstName">First Name:</label>
-      //   <input name="firstName" value={firstName} onChange={e => setFirstName(e.target.value)}/><br></br>
-      //   <label htmlFor="lastName">Last Name:</label>
-      //   <input name="lastName" value={lastName} onChange={e => setLastName(e.target.value)}/><br></br>
-      //   <label htmlFor="preferredLang">Select Preferred Language:</label>
-      //   <select name="preferredLang" id="preferredLang" onChange={e => setPreferredLang(e.target.value)} defaultValue={preferredLang}>
-      //     <option value="spanish">Spanish</option>          
-      //     <option value="hebrew">Hebrew</option>          
-      //     <option value="french">French</option>          
-      //     <option value="portguese">Portuguese</option>          
-      //     <option value="chinese">Chinese</option>          
-      //   </select><br></br>
-      //   <button onClick={changePassword}>Change Password</button>
-      //   <button type="submit">Save</button>
-      // </form> */}
     </div>
   )
 }

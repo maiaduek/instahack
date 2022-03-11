@@ -152,7 +152,7 @@ function PostDetails() {
         </ul>
       </nav>
 
-      <div className="card mb-3 mt-5 ms-5" style={{maxWidth: "800px"}}>
+      <div className="card mb-3 mt-5 ms-5 shadow" style={{maxWidth: "800px"}}>
         <div className="row g-0">
           <div className="col-md-4">
             <img src="https://thumbs.dreamstime.com/b/man-hipster-avatar-cartoon-guy-black-hair-man-hipster-avatar-cartoon-guy-black-hair-flat-icon-blue-background-user-223717055.jpg" className="img-fluid rounded-start"/>
@@ -181,7 +181,7 @@ function PostDetails() {
         {
           postComments.map((cmt, i) => {
             return (
-              <div className="card ms-5 mb-1" style={{maxWidth: "800px", display:"flex", flexDirection: "row", justifyContent: "space-between"}} key={i}>
+              <div className="card ms-5 mb-1 shadow" style={{maxWidth: "800px", display:"flex", flexDirection: "row", justifyContent: "space-between"}} key={i}>
                 <div className="card-body" style={{display: "flex", flexDirection: "row"}}>
                   <img src="https://thumbs.dreamstime.com/b/man-hipster-avatar-cartoon-guy-black-hair-man-hipster-avatar-cartoon-guy-black-hair-flat-icon-blue-background-user-223717055.jpg" style={{width:"100px", borderRadius: "50px"}}/>
                   <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20px"}}>
@@ -197,9 +197,9 @@ function PostDetails() {
       }
       <div className="d-flex justify-content-center align-items-center mt-3">
         <label htmlFor="comment-text mr-5">Comment:</label>
-          <textarea className="ms-5 mb-2" name="comment-text" cols="50" rows="4" onChange={e => setComment(e.target.value)} value={comment}></textarea>
+          <textarea className="ms-5 mb-2 shadow" name="comment-text" cols="50" rows="4" style={{borderRadius: "5px", marginRight: "400px"}} onChange={e => setComment(e.target.value)} value={comment}></textarea>
         </div>
-        <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40" style={{marginLeft: "120px"}}>Add Comment</button>
+        <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40" style={{marginRight: "250px"}}>Add Comment</button>
     </div>
   )
 }

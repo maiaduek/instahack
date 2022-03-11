@@ -53,20 +53,20 @@ function Signup() {
         <form onSubmit={signupUser} style={{width: "600px"}}>
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
             <label htmlFor="username" className="form-label" style={{marginRight: "10px"}}>Username:</label>
-            <input placeholder="Instahacker1" id="username" className="form-control input-sm" value={username} onChange={e => setUsername(e.target.value)} />
+            <input placeholder="Instahacker1" id="username" className="form-control input-sm shadow" value={username} onChange={e => setUsername(e.target.value)} />
           </div>
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}> 
             <label htmlFor="password" className="form-label" style={{marginRight: "10px"}}>Password:</label>
-            <input placeholder="********" type="password" className="form-control" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
+            <input placeholder="********" type="password" className="form-control shadow" id="password" onChange={e => setPassword(e.target.value)} value={password}/>
           </div>
             <div id="emailHelp" className="form-text">Please choose a password with at least 8 characters.</div>
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "spaceBetween"}}>
             <label htmlFor="firstName" className="form-label" style={{marginRight: "10px"}}>First Name:</label>
-            <input placeholder="Insta" className="form-control" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
+            <input placeholder="Insta" className="form-control shadow" id="firstName" onChange={e => setFirstName(e.target.value)} value={firstName}/>
           </div>
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <label htmlFor="lastName" className="form-label" style={{marginRight: "10px"}}>Last Name:</label>
-            <input placeholder="Hacker" className="form-control" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
+            <input placeholder="Hacker" className="form-control shadow" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
           </div>
           <div className="m-3">
             <label htmlFor="preferredLang">Preferred Language:</label>
