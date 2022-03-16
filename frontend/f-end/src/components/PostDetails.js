@@ -164,7 +164,8 @@ function PostDetails() {
               <p className="card-text"><small className="text-muted">By: <a href={`/profile/${currentProfile._id}`}>{currentProfile.username}</a></small></p>
               <p className="card-text"><small className="text-muted">Published: {userPost.createdAt?.slice(0,10)}</small></p>
               <button onClick={translate} className="btn btn-outline-primary">Translate</button>
-              <button onClick={() => deletePost(userPost._id)} className="btn btn-outline-primary ms-2">Delete Post</button>
+              {user._id === currentProfile._id ? 
+              <button onClick={() => deletePost(userPost._id)} className="btn btn-outline-primary ms-2">Delete Post</button> : ''}
             </div>
           </div>
         </div>
@@ -190,7 +191,8 @@ function PostDetails() {
                     <p style={{color: "lightgray"}}>{cmt.updatedAt?.slice(0,10)}</p>
                   </div>
                 </div>
-                <button onClick={() => deleteComment(cmt._id)} className="btn btn-outline-primary" style={{height: "40px", marginTop: "45px", marginRight: "30px"}}>Delete</button>
+                {user._id === currentProfile._id ? 
+                <button onClick={() => deleteComment(cmt._id)} className="btn btn-outline-primary" style={{height: "40px", marginTop: "45px", marginRight: "30px"}}>Delete</button> : ''}
               </div>
           )
         })
