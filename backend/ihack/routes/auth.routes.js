@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 
+const fileUploader = require('../config/cloudinary.config');
+
 // ℹ️ Handles password encryption
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
@@ -259,8 +261,14 @@ router.post("/delete", isAuthenticated, (req, res) => {
   User.findByIdAndRemove(req.user._id)
   .then(results => {
     res.json(results)
-  })
+  })  
   .catch(err => res.json(err.message))
+})
+
+router.post('/upload-image', fileUploader.single('imageUrl'), (req, res) => {
+  console.log("HEEREE:::::")
+  console.log("FILE",req.file);
+  res.json(req.file);
 })
 
 module.exports = router;
