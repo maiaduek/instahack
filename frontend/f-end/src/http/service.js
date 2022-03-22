@@ -28,3 +28,7 @@ export const post = (route, body) => {
     }
   });
 };
+
+// export const uploadImage = (file) => {
+//   return axios.post = (route) => {}
+// }

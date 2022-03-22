@@ -7,6 +7,7 @@ function Signup() {
   const [ password, setPassword] = useState('');
   const [ firstName, setFirstName] = useState('');
   const [ lastName, setLastName] = useState('');
+  const [ image, setImage] = useState('');
   const [ preferredLang, setPreferredLang] = useState('');
   const [error, setError] = useState('');
   const [loggedIn, setloggedIn] = useState(false)
@@ -20,6 +21,7 @@ function Signup() {
       password,
       firstName,
       lastName,
+      image,
       preferredLang
     })
     .then(newUser => {
@@ -38,6 +40,22 @@ function Signup() {
     }
   }, [loggedIn])
 
+  const handleFileUpload = (e) => {
+    //console.log("file to be uploaded::", e.target.files[0])
+    const uploadData = new FormData();
+
+    //imageUrl => this name is to be the same as in the model since we pass req.body to .create() methos when creating a new thing in '/auth/upload-image' POST route
+    uploadData.append('imageUrl', e.target.files[0]);
+      post('/auth/upload-image', {
+        image: uploadData
+      })
+      .then(response => {
+        console.log("response is::", response.data)
+        // setImage(response)
+      })
+      .catch(err => console.log("error uploading::", err));
+  };
+
   return (
     <div>
       <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
@@ -50,7 +68,7 @@ function Signup() {
       </nav>
       <h2 className="text-primary m-4 d-flex justify-content-start">Join us:</h2>
       <div style={{display: "flex", justifyContent: "center"}}>
-        <form onSubmit={signupUser} style={{width: "600px"}}>
+        <form onSubmit={signupUser} style={{width: "600px"}} encType="multipart/form-data">
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
             <label htmlFor="username" className="form-label" style={{marginRight: "10px"}}>Username:</label>
             <input placeholder="Instahacker1" id="username" className="form-control input-sm shadow" value={username} onChange={e => setUsername(e.target.value)} />
@@ -67,6 +85,10 @@ function Signup() {
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <label htmlFor="lastName" className="form-label" style={{marginRight: "10px"}}>Last Name:</label>
             <input placeholder="Hacker" className="form-control shadow" id="lastName" onChange={e => setLastName(e.target.value)} value={lastName}/>
+          </div>
+          <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+            <label htmlFor="image" className="form-label" style={{marginRight: "10px"}}>Profile Photo:</label>
+            <input name="image" type="file" onChange={handleFileUpload} />
           </div>
           <div className="m-3">
             <label htmlFor="preferredLang">Preferred Language:</label>
