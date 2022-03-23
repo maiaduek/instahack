@@ -7,7 +7,7 @@ function EditInfo(props) {
   // const [password, setPassword] = useState("")
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [ image, setImage] = useState('');
+  const [image, setImage] = useState('');
   const [preferredLang, setPreferredLang] = useState('')
   const [changedInfo, setChangedInfo] = useState(false)
   const [id, setId] = useState('');
@@ -56,17 +56,16 @@ function EditInfo(props) {
   }
 
   const handleFileUpload = (e) => {
-    //console.log("file to be uploaded::", e.target.files[0])
     const uploadData = new FormData();
 
-    //imageUrl => this name is to be the same as in the model since we pass req.body to .create() methos when creating a new thing in '/auth/upload-image' POST route
     uploadData.append('imageUrl', e.target.files[0]);
+    console.log("uploadData::", uploadData)
+    console.log("e.target.files[0]::", e.target.files[0])
       post('/auth/upload-image', {
         image: uploadData
       })
       .then(response => {
-        // HERRRREEEE::::::: FIGURING OUT RESPONSE
-        console.log("response is::", response.data)
+        console.log("response is::", response)
         // setImage(response)
       })
       .catch(err => console.log("error uploading::", err));
@@ -100,7 +99,7 @@ function EditInfo(props) {
         </div>
         <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
           <label htmlFor="image" className="form-label" style={{marginRight: "10px"}}>Profile Photo:</label>
-          <input name="image" type="file" onChange={handleFileUpload} />
+          <input name="image" type="file" onChange={(e) => handleFileUpload(e)} />
         </div>
         <div className="m-3">
           <label htmlFor="preferredLang">Preferred Language:</label>
