@@ -114,7 +114,8 @@ function PostDetails() {
         commentBody: comment,
         commenter: user._id,
         post: postId,
-        commenterName: user.username
+        commenterName: user.username,
+        userImage: user.image
       })
       .then((res) => {
         // console.log("POST COMMENTS", res)
@@ -155,7 +156,7 @@ function PostDetails() {
       <div className="card mb-3 mt-5 ms-5 shadow" style={{maxWidth: "800px"}}>
         <div className="row g-0">
           <div className="col-md-4">
-            <img src="https://thumbs.dreamstime.com/b/man-hipster-avatar-cartoon-guy-black-hair-man-hipster-avatar-cartoon-guy-black-hair-flat-icon-blue-background-user-223717055.jpg" className="img-fluid rounded-start"/>
+            <img src={currentProfile.image} className="img-fluid rounded-start"/>
           </div>
           <div className="col-md-8">
             <div className="card-body">
@@ -181,10 +182,11 @@ function PostDetails() {
 
         {
           postComments.map((cmt, i) => {
+            console.log("comment:::",cmt)
             return (
               <div className="card ms-5 mb-1 shadow" style={{maxWidth: "800px", display:"flex", flexDirection: "row", justifyContent: "space-between"}} key={i}>
                 <div className="card-body" style={{display: "flex", flexDirection: "row"}}>
-                  <img src="https://thumbs.dreamstime.com/b/man-hipster-avatar-cartoon-guy-black-hair-man-hipster-avatar-cartoon-guy-black-hair-flat-icon-blue-background-user-223717055.jpg" style={{width:"100px", borderRadius: "50px"}}/>
+                  <img src={cmt.userImage} style={{width:"100px", borderRadius: "50px"}}/>
                   <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20px"}}>
                     <h5 className="card-title"><a href={`/profile/${cmt.commenter}`}>{cmt.commenterName}</a></h5>
                     <p className="card-text">{cmt.commentBody}</p>

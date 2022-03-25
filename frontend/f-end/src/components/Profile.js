@@ -67,7 +67,7 @@ function Profile(props) {
   const changeBio = (bioText) => {
     setUserInfo({...userInfo, bio: bioText})
   }
-
+  console.log("IMGA::", userInfo.image)
   return (
     <div>
       <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
@@ -82,7 +82,7 @@ function Profile(props) {
       </nav>
       
       <div className="row">
-        <img src="https://thumbs.dreamstime.com/b/man-hipster-avatar-cartoon-guy-black-hair-man-hipster-avatar-cartoon-guy-black-hair-flat-icon-blue-background-user-223717055.jpg" className="col-3 mt-5 ms-5" style={{borderRadius: "200px"}}/>
+        <img src={userInfo.image} className="col-3 mt-5 ms-5" style={{borderRadius: "200px"}}/>
         <div className="col-6">
           <h2 className="mt-5">{userInfo.firstName} {userInfo.lastName}</h2>
           <h3 style={{color: "grey"}} className="mt-4">{userInfo.username}</h3>

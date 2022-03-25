@@ -21,6 +21,7 @@ function EditInfo(props) {
       setFirstName(results.data.firstName);
       setLastName(results.data.lastName);
       setPreferredLang(results.data.preferredLang);
+      setImage(results.data.image);
       setId(results.data._id);
     })
   }, [])
@@ -37,7 +38,8 @@ function EditInfo(props) {
       username,
       firstName,
       lastName,
-      preferredLang
+      preferredLang,
+      image
     })
     .then(updatedUser => {
       props.setUser(updatedUser.data)
@@ -63,7 +65,7 @@ function EditInfo(props) {
       postFile('/auth/upload-image', uploadData)
       .then(response => {
         console.log("response is::", response.data)
-        // setImage(response)
+        setImage(response.data.path)
       })
       .catch(err => console.log("error uploading::", err));
   };
