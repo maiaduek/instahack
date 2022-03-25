@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { get, post } from '../http/service'
+import { get, post, postFile } from '../http/service'
 import { useNavigate } from 'react-router-dom'
 
 function EditInfo(props) {
@@ -35,7 +35,6 @@ function EditInfo(props) {
     e.preventDefault();
     post("/auth/edit-info", {
       username,
-      // password,
       firstName,
       lastName,
       preferredLang
@@ -58,14 +57,12 @@ function EditInfo(props) {
   const handleFileUpload = (e) => {
     const uploadData = new FormData();
 
-    uploadData.append('imageUrl', e.target.files[0]);
-    console.log("uploadData::", uploadData)
-    console.log("e.target.files[0]::", e.target.files[0])
-      post('/auth/upload-image', {
-        image: uploadData
-      })
+    uploadData.append('image', e.target.files[0]);
+    // console.log("uploadData::", uploadData.get('image'))
+    // console.log("e.target.files[0]::", e.target.files[0])
+      postFile('/auth/upload-image', uploadData)
       .then(response => {
-        console.log("response is::", response)
+        console.log("response is::", response.data)
         // setImage(response)
       })
       .catch(err => console.log("error uploading::", err));

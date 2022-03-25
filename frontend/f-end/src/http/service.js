@@ -29,6 +29,13 @@ export const post = (route, body) => {
   });
 };
 
-// export const uploadImage = (file) => {
-//   return axios.post = (route) => {}
-// }
+export const postFile = (route, formData) => {
+  const token = localStorage.getItem("token");
+
+  return axios.post(`${url}${route}`, formData, {
+    headers: {
+      "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+      Authorization: token
+    }
+  });
+}

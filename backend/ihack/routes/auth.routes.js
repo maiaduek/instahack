@@ -265,8 +265,8 @@ router.post("/delete", isAuthenticated, (req, res) => {
   .catch(err => res.json(err.message))
 })
 
-router.post('/upload-image', fileUploader.single('imageUrl'), (req, res) => {
-  console.log("FILE",req.file);
+router.post('/upload-image', fileUploader.single('image'), (req, res) => {
+  console.log("FILE", req.file);
   res.json(req.file);
 })
 

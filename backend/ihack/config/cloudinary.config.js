@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    allowed_formats: ['jpg', 'png'],
+    allowed_formats: ['jpeg', 'png'],
     folder: 'users' //The name of the folder in cloudinary
     // resource type: 'raw', => this is in case you want to upload other type of files, not just images
   }
