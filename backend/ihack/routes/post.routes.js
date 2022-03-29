@@ -86,7 +86,8 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
     commentBody: req.body.commentBody,
     commenter: req.user._id,
     post: req.params.postId,
-    commenterName: req.user.username
+    commenterName: req.user.username,
+    commenterImage: req.body.commenterImage
   })
   .then(newComment => {
     Post.findByIdAndUpdate(req.params.postId, {

@@ -60,8 +60,6 @@ function EditInfo(props) {
     const uploadData = new FormData();
 
     uploadData.append('image', e.target.files[0]);
-    // console.log("uploadData::", uploadData.get('image'))
-    // console.log("e.target.files[0]::", e.target.files[0])
       postFile('/auth/upload-image', uploadData)
       .then(response => {
         console.log("response is::", response.data)

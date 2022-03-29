@@ -67,7 +67,7 @@ function Profile(props) {
   const changeBio = (bioText) => {
     setUserInfo({...userInfo, bio: bioText})
   }
-  console.log("IMGA::", userInfo.image)
+  console.log("IMGA::", userInfo)
   return (
     <div>
       <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">

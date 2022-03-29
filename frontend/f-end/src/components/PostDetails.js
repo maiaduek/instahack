@@ -115,7 +115,7 @@ function PostDetails() {
         commenter: user._id,
         post: postId,
         commenterName: user.username,
-        userImage: user.image
+        commenterImage: user.image
       })
       .then((res) => {
         // console.log("POST COMMENTS", res)
@@ -153,57 +153,60 @@ function PostDetails() {
         </ul>
       </nav>
 
-      <div className="card mb-3 mt-5 ms-5 shadow" style={{maxWidth: "800px"}}>
-        <div className="row g-0">
-          <div className="col-md-4">
-            <img src={currentProfile.image} className="img-fluid rounded-start"/>
-          </div>
-          <div className="col-md-8">
-            <div className="card-body">
-              <h3 className="card-title">{userPost.caption}</h3>
-              <p className="card-text mt-5">{translatedContent ? translatedContent : userPost.content}</p>
-              <p className="card-text"><small className="text-muted">By: <a href={`/profile/${currentProfile._id}`}>{currentProfile.username}</a></small></p>
-              <p className="card-text"><small className="text-muted">Published: {userPost.createdAt?.slice(0,10)}</small></p>
-              <button onClick={translate} className="btn btn-outline-primary">Translate</button>
-              {user._id === currentProfile._id ? 
-              <button onClick={() => deletePost(userPost._id)} className="btn btn-outline-primary ms-2">Delete Post</button> : ''}
+      <div style={{margin: "auto", width: "75%"}}>
+        <div className="card mb-3 mt-5 ms-5 shadow" style={{maxWidth: "800px", margin: "auto"}}>
+          <div className="row g-0">
+            <div className="col-md-4">
+              <img src={currentProfile.image} className="img-fluid rounded-start"/>
+            </div>
+            <div className="col-md-8">
+              <div className="card-body">
+                <h3 className="card-title">{userPost.caption}</h3>
+                <p className="card-text mt-5">{translatedContent ? translatedContent : userPost.content}</p>
+                <p className="card-text"><small className="text-muted">By: <a href={`/profile/${currentProfile._id}`}>{currentProfile.username}</a></small></p>
+                <p className="card-text"><small className="text-muted">Published: {userPost.createdAt?.slice(0,10)}</small></p>
+                <button onClick={translate} className="btn btn-outline-primary">Translate</button>
+                {user._id === currentProfile._id ? 
+                <button onClick={() => deletePost(userPost._id)} className="btn btn-outline-primary ms-2">Delete Post</button> : ''}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {/* {
-        addingComment ? 
-        <div className="d-flex justify-content-center align-items-center">
-        <label htmlFor="comment-text mr-5">Comment:</label>
-          <textarea className="ms-5 mb-2" name="comment-text" cols="50" rows="4" onChange={e => setComment(e.target.value)}></textarea>
-        </div> : ''
-      }
-      <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40">Add Comment</button> */}
+        {/* {
+          addingComment ? 
+          <div className="d-flex justify-content-center align-items-center">
+          <label htmlFor="comment-text mr-5">Comment:</label>
+            <textarea className="ms-5 mb-2" name="comment-text" cols="50" rows="4" onChange={e => setComment(e.target.value)}></textarea>
+          </div> : ''
+        }
+        <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40">Add Comment</button> */}
 
-        {
-          postComments.map((cmt, i) => {
-            console.log("comment:::",cmt)
-            return (
-              <div className="card ms-5 mb-1 shadow" style={{maxWidth: "800px", display:"flex", flexDirection: "row", justifyContent: "space-between"}} key={i}>
-                <div className="card-body" style={{display: "flex", flexDirection: "row"}}>
-                  <img src={cmt.userImage} style={{width:"100px", borderRadius: "50px"}}/>
-                  <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20px"}}>
-                    <h5 className="card-title"><a href={`/profile/${cmt.commenter}`}>{cmt.commenterName}</a></h5>
-                    <p className="card-text">{cmt.commentBody}</p>
-                    <p style={{color: "lightgray"}}>{cmt.updatedAt?.slice(0,10)}</p>
+          {
+            postComments.map((cmt, i) => {
+              return (
+                <div className="card ms-5 mb-1 shadow" style={{maxWidth: "800px", display:"flex", flexDirection: "row", justifyContent: "space-between"}} key={i}>
+                  <div className="card-body" style={{display: "flex", flexDirection: "row"}}>
+                    <img src={cmt.commenterImage} style={{width:"100px", borderRadius: "50px"}}/>
+                    <div style={{display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20px"}}>
+                      <h5 className="card-title"><a href={`/profile/${cmt.commenter}`}>{cmt.commenterName}</a></h5>
+                      <p className="card-text">{cmt.commentBody}</p>
+                      <p style={{color: "lightgray"}}>{cmt.updatedAt?.slice(0,10)}</p>
+                    </div>
                   </div>
+                  {user._id === currentProfile._id ? 
+                  <button onClick={() => deleteComment(cmt._id)} className="btn btn-outline-primary" style={{height: "40px", marginTop: "45px", marginRight: "30px"}}>Delete</button> : ''}
                 </div>
-                {user._id === currentProfile._id ? 
-                <button onClick={() => deleteComment(cmt._id)} className="btn btn-outline-primary" style={{height: "40px", marginTop: "45px", marginRight: "30px"}}>Delete</button> : ''}
-              </div>
-          )
-        })
-      }
-      <div className="d-flex justify-content-center align-items-center mt-3">
-        <label htmlFor="comment-text mr-5">Comment:</label>
-          <textarea className="ms-5 mb-2 shadow" name="comment-text" cols="50" rows="4" style={{borderRadius: "5px", marginRight: "400px"}} onChange={e => setComment(e.target.value)} value={comment}></textarea>
+            )
+          })
+        }
+        <div style={{margin: "auto", float: "right", width: "75%"}}>
+          <div className="d-flex justify-content-center align-items-center mt-3">
+            {/* <label htmlFor="comment-text">Comment:</label> */}
+            <textarea className="ms-5 mb-2 shadow" name="comment-text" cols="50" rows="4" style={{borderRadius: "5px", marginRight: "300px"}} onChange={e => setComment(e.target.value)} value={comment}></textarea>
+          </div>
+          <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40" style={{marginRight: "250px"}}>Add Comment</button>
         </div>
-        <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40" style={{marginRight: "250px"}}>Add Comment</button>
+      </div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'
-import { post, get } from '../http/service';
+import { post, get, postFile } from '../http/service';
 
 function Signup() {
   const [ username, setUsername] = useState('');
@@ -21,8 +21,8 @@ function Signup() {
       password,
       firstName,
       lastName,
-      image,
-      preferredLang
+      preferredLang,
+      image
     })
     .then(newUser => {
       localStorage.setItem("token", newUser.data)
@@ -41,17 +41,13 @@ function Signup() {
   }, [loggedIn])
 
   const handleFileUpload = (e) => {
-    //console.log("file to be uploaded::", e.target.files[0])
     const uploadData = new FormData();
 
-    //imageUrl => this name is to be the same as in the model since we pass req.body to .create() methos when creating a new thing in '/auth/upload-image' POST route
-    uploadData.append('imageUrl', e.target.files[0]);
-      post('/auth/upload-image', {
-        image: uploadData
-      })
+    uploadData.append('image', e.target.files[0]);
+      postFile('/auth/upload-image', uploadData)
       .then(response => {
         console.log("response is::", response.data)
-        // setImage(response)
+        setImage(response.data.path)
       })
       .catch(err => console.log("error uploading::", err));
   };

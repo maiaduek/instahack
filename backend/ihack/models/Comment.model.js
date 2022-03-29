@@ -16,9 +16,9 @@ const commentSchema = new Schema({
   commenterName: {
     type: String
   },
-  userImage: {
+  commenterImage: {
     type: String
-  }
+  } 
 }, {
   timestamps: true
 })
