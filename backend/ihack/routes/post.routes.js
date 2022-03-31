@@ -102,6 +102,9 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
 })
 
 router.post("/:postId/delete-comment/:commentId", isAuthenticated, (req, res) => {
+  Post.updateOne(req.params.postId, {
+    $pull: {comments: {_id: req.params.commentId}}
+  }, {new: true});
   Comment.findByIdAndRemove(req.params.commentId)
   .then(results => {
     res.json(results)

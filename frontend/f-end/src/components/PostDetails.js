@@ -141,7 +141,7 @@ function PostDetails() {
     })
     .catch(err => console.log("ERR DELETING COMMENT", err))
   }
-
+console.log(postComments)
   return (
     <div>
       <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
@@ -180,7 +180,6 @@ function PostDetails() {
           </div> : ''
         }
         <button onClick={addComment} className="btn btn-outline-primary mb-3 w-40">Add Comment</button> */}
-
           {
             postComments.map((cmt, i) => {
               return (
