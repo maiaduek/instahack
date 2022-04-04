@@ -102,9 +102,14 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
 })
 
 router.post("/:postId/delete-comment/:commentId", isAuthenticated, (req, res) => {
-  Post.updateOne(req.params.postId, {
-    $pull: {comments: {_id: req.params.commentId}}
-  }, {new: true});
+  // console.log("postId::", req.params.commentId)
+  Post.findByIdAndUpdate(req.params.postId, {
+    $pull: {comments: req.params.commentId}
+  }, {new: true})
+  .then(deleteResults => {
+    res.json(deleteResults)
+  })
+  .catch(err => console.log("error here::", err))
   Comment.findByIdAndRemove(req.params.commentId)
   .then(results => {
     res.json(results)

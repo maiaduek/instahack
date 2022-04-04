@@ -107,7 +107,7 @@ function Profile(props) {
       {
         userInfo?.posts?.length ? 
         userInfo.posts.map((post, i) => {
-          console.log(post.comments)
+          console.log("POST", post)
           return (
           <div className="card w-76 ms-5 mt-3 shadow" key={i}>
             <div className="card-body">
