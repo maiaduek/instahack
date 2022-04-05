@@ -102,19 +102,24 @@ router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
 })
 
 router.post("/:postId/delete-comment/:commentId", isAuthenticated, (req, res) => {
-  // console.log("postId::", req.params.commentId)
+  console.log("HEREE::")
   Post.findByIdAndUpdate(req.params.postId, {
     $pull: {comments: req.params.commentId}
   }, {new: true})
   .then(deleteResults => {
-    res.json(deleteResults)
+    console.log("INSIDE .THEN 1")
+    console.log("resilts of post")
+    Comment.findByIdAndRemove(req.params.commentId)
+      .then(results => {
+      console.log("INSIDE .THEN 2")
+      res.json(deleteResults, results)
+      console.log("resilts of comment")
+    })
+    .catch(err => console.log("ERROR HERE::", err.message))
   })
   .catch(err => console.log("error here::", err))
-  Comment.findByIdAndRemove(req.params.commentId)
-  .then(results => {
-    res.json(results)
-  })
-  .catch(err => res.json(err.message))
+  console.log("HEREE TWO::")
+  
 })
 
 
