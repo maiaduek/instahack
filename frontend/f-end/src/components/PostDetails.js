@@ -141,7 +141,7 @@ function PostDetails() {
     })
     .catch(err => console.log("ERR DELETING COMMENT", err))
   }
-console.log(postComments)
+
   return (
     <div>
       <nav className="navbar nav-pills bg-primary p-2 justify-content-end d-flex justify-content-between">
@@ -172,6 +172,7 @@ console.log(postComments)
             </div>
           </div>
         </div>
+
         {/* {
           addingComment ? 
           <div className="d-flex justify-content-center align-items-center">
