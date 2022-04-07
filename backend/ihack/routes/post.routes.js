@@ -81,7 +81,6 @@ router.get("/:postId/comments", isAuthenticated, (req, res) => {
 })
 
 router.post("/:postId/create-comment", isAuthenticated, (req, res) => {
-  console.log("HERE", req.body)
   Comment.create({
     commentBody: req.body.commentBody,
     commenter: req.user._id,
@@ -106,16 +105,11 @@ router.post("/:postId/delete-comment/:commentId", isAuthenticated, (req, res) =>
     $pull: {comments: req.params.commentId}
   }, {new: true})
   .then(deleteResults => {
-    console.log("INSIDE .THEN 1")
-    console.log("resilts of post")
     res.json(deleteResults)
   })
   .then(results => {
     Comment.findByIdAndRemove(req.params.commentId)
       .then(results => {
-      console.log("INSIDE .THEN 2")
-      res.json(results)
-      console.log("resilts of comment")
     })
     .catch(err => console.log("ERROR HERE::", err.message))
   })
