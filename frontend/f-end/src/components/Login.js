@@ -49,7 +49,7 @@ function Login(props) {
         <form onSubmit={loginUser} style={{width: "600px"}}>
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
             <label htmlFor="username" className="form-label" style={{marginRight: "10px"}}>Username:</label>
-            <input placeholder="Insthacker1" id="username" className="form-control input-sm shadow" value={username} onChange={e => setUsername(e.target.value)} />
+            <input placeholder="Instahacker1" id="username" className="form-control input-sm shadow" value={username} onChange={e => setUsername(e.target.value)} />
           </div>
           <div className="m-3" style={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
             <label htmlFor="password" className="form-label" style={{marginRight: "10px"}}>Password:</label>

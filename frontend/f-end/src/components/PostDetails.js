@@ -67,7 +67,6 @@ function PostDetails() {
         chinese: 'zh-CN'
       }
       let targetLang = languages[user.preferredLang]
-      // console.log("targetLANG", targetLang)
       if (!translated) {
         var options = {
           method: 'GET',
@@ -91,13 +90,11 @@ function PostDetails() {
       } 
       axios.request(options)
       .then(function (response) {
-        // console.log("RESPONSE", response.data)
         if (!translatedContent) {
           setTranslatedContent(response.data.translated_text[targetLang])
         } else {
           setTranslatedContent('')
         }
-        // console.log(response.data.translated_text[targetLang]);
         setTranslated(!translated)
       })
       .catch(function (error) {
@@ -118,7 +115,6 @@ function PostDetails() {
         commenterImage: user.image
       })
       .then((res) => {
-        // console.log("POST COMMENTS", res)
         setPostComments(postComments.concat(res.data))
       })
       .then(results => {
