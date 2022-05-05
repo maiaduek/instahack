@@ -14,7 +14,6 @@ router.get("/translate", isAuthenticated, (req, res) => {
   }
 
   let targetLang = languages[req.user.preferredLang]
-  // console.log("USER P.LANG::", req.user.preferredLang)
   var options = {
     method: 'GET',
     url: 'https://nlp-translation.p.rapidapi.com/v1/translate',
@@ -24,10 +23,8 @@ router.get("/translate", isAuthenticated, (req, res) => {
       'x-rapidapi-key': 'a460bb0bd0msh814d08d164cd76bp1b1451jsn09211e97f6aa'
     }
   };
-  // console.log("REQ USER;::::",req.user)
   axios.request(options)
   .then(function (response) {
-    // console.log(response.data);
     res.json(response.data.translated_text[targetLang])
   })
   .catch(function (error) {

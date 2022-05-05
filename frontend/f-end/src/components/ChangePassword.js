@@ -25,7 +25,6 @@ function ChangePassword() {
       newPassword
     })
     .then(results => {
-      console.log("IN THEN, RESULTS", results)
       navigate(`/profile/${id}`)
     })
     .catch(err => {

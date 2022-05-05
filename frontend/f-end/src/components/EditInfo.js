@@ -62,7 +62,6 @@ function EditInfo(props) {
     uploadData.append('image', e.target.files[0]);
       postFile('/auth/upload-image', uploadData)
       .then(response => {
-        console.log("response is::", response.data)
         setImage(response.data.path)
       })
       .catch(err => console.log("error uploading::", err));

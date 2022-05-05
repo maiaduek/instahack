@@ -12,7 +12,6 @@ import PostDetails from './components/PostDetails';
 
 function App() {
   const [user, setUser] = useState('')
-  console.log("IN APP.JS", user)
   return (
     <div className="App">
       <Routes>

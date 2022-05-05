@@ -33,7 +33,6 @@ router.get("/loggedin", isAuthenticated, (req, res) => {
 router.get("/:userId", (req, res) => {
   User.findById(req.params.userId)
   .then(foundUser => {
-    console.log("FOUND USER:", foundUser)
     res.json(foundUser)
   })
   .catch(err => console.log("Error finding user::", err.message))
@@ -138,7 +137,6 @@ router.post("/login", (req, res, next) => {
       if (!user) {
         return res.status(400).json({ errorMessage: "Wrong credentials." });
       }
-      // console.log("USER LOGIN:::",user)
       // If user is found based on the username, check if the in putted password matches the one saved in the database
       bcrypt.compare(password, user.password).then((isSamePassword) => {
         if (!isSamePassword) {
@@ -167,7 +165,6 @@ router.post("/login", (req, res, next) => {
 });
 
 router.post("/change-password", isAuthenticated, (req, res) => {
-  // console.log("req body", req.body)
   const { oldPassword, newPassword } = req.body;
 
   if (oldPassword.length < 8 || newPassword.length < 8) {
@@ -223,8 +220,6 @@ router.post("/edit-info", isAuthenticated, (req, res) => {
         })
   
         .then(results => {
-        // console.log("RESULTS FROM EDITING:::", results)
-  
         const authToken = jwt.sign(results, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
@@ -266,7 +261,6 @@ router.post("/delete", isAuthenticated, (req, res) => {
 })
 
 router.post('/upload-image', fileUploader.single('image'), (req, res) => {
-  console.log("FILE", req.file);
   res.json(req.file);
 })
 

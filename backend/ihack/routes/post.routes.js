@@ -51,9 +51,6 @@ router.post("/create-post", isAuthenticated, (req, res) => {
       new: true
     })
     .then(updatedUser => {
-      // ADDED
-      // console.log("UPDATED USER FROM CREATE::::", updatedUser)
-
       res.json(updatedUser)
     })
   })
@@ -114,7 +111,6 @@ router.post("/:postId/delete-comment/:commentId", isAuthenticated, (req, res) =>
     .catch(err => console.log("ERROR HERE::", err.message))
   })
   .catch(err => console.log("error here::", err))
-  console.log("HEREE TWO::")
   
 })
 

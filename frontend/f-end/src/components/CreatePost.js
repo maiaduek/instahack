@@ -13,7 +13,6 @@ function CreatePost() {
 
   useEffect(() => {
     if (finishedPost) {
-      // console.log("FINISHED POST", poster)
       navigate(`/profile/${poster}`)
     }
   }, [finishedPost])
